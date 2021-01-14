@@ -1,0 +1,32 @@
+{% extends "User/layout.html" %}
+
+{% block body %}
+
+    {% if user.is_authenticated %}
+    <form method="POST" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <p>
+        <label>Type:</label>
+        {{ form.addType }}<i>Current: </i>{{ helper.addType }}</p>
+        <p>
+        <label>Addressline1:</label>
+        {{ form.addressLine1 }}<i>Current: </i>{{ helper.addressLine1 }}
+        </p>
+        <p>
+        <label>Addressline2:</label>
+        {{ form.addressLine2 }}<i>Current: </i>{{ helper.addressLine2 }}
+        </p>
+        <p>
+        <label>ZipCode:</label>
+        {{ form.zipCode }}<i>Current: </i>{{ helper.zipCode }}
+        </p>
+        <br>
+        <button class="btn waves-effect waves-light" type="submit" name="action">Change!<i class="material-icons right">add_location</i></button>
+    </form>
+    {% else %}
+        You are Not Logged In
+        <p>Please <a href="{% url 'login' %}">Login</a> in order to create a listing!<br>If not a user,<a href="{% url 'register' %}">Register</a> now!</p>
+
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "User/layout.html" %}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+<h2> Your Mobile Details - </h2>
+    {% for phone in phones %}
+    <ul class="collection with-header">
+        {% if phone.phType.id == 1 %}
+        <li class="collection-item"><div>{{ phone.phType }} : {{ phone.phoneNum }}<i class="material-icons right">beenhere</i></div></li>
+        {% else %}
+        <li class="collection-item"><div>{{ phone.phType }} : {{ phone.phoneNum }}<a href="{% url 'deletePhone' phone.id %}" class="secondary-content"><i class="material-icons right">phonelink_erase</i></a></div></li>
+        {% endif %}
+    </ul>
+    {% endfor %}
+    
+    <a href="{% url 'createPhone' %}" class="waves-effect waves-light btn-large" style="background-color: #2C2B30;"><i class="material-icons left">phone_forwarded</i>Add Phone</a>
+{% else %}
+You are Not Logged In
+<p>Please <a href="{% url 'login' %}">Login</a> in order to create a listing!<br>If not a user,<a href="{% url 'register' %}">Register</a> now!</p>
+{% endif %}
+
+{% endblock %}
