@@ -81,6 +81,29 @@ def register(request):
     else:
         return render(request, "User/register.html")\
 
+@login_required(login_url='/login')
+def changePassword(request):
+    user = request.user
+    if request.method == "POST":
+        current_password = request.POST["current_password"]
+        new_password = request.POST["new_password"]
+        confirmation = request.POST["confirmation"]
+        userf = authenticate(request, email=user.email, password=current_password)
+        if userf is not None:
+            if new_password != confirmation:
+                return render(request, "User/changePassword.html", {"message": "Passwords must match."})
+            else:
+                user.set_password(new_password)
+                user.save()
+                login(request, user)
+                mess = "You've Registered successfully Changed Password to - " + str(new_password)
+                send_mail('Successful Password Change', mess,'kartikay252081075@gmail.com', [user.email],fail_silently=False,)
+                messages.success(request, f"Password Changed")
+                return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(request, "User/changePassword.html", {"message": "Check Current Password."})
+    else:
+        return render(request, "User/changePassword.html")
 
 #phonebook-------------------------------------
 @login_required(login_url='/login')
