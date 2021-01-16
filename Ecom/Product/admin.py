@@ -3,10 +3,6 @@ from .models import *
 # Register your models here.
 
 
-admin.site.register(PaymentTypes)
-admin.site.register(PaymentItem)
-admin.site.register(PaymentDetail)
-
 
 admin.site.register(Category)
 admin.site.register(SubCategory)

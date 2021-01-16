@@ -9,7 +9,9 @@ admin.site.register(PhoneDetail)
 admin.site.register(AddressTypes)
 admin.site.register(AddressDetail)
 admin.site.register(SubscriptionTypes)
+admin.site.register(SubscriptionPeriods)
 admin.site.register(SubscriptionDetail)
+
 admin.site.register(UserDetails)
 
 

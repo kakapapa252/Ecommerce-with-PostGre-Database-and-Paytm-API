@@ -63,7 +63,7 @@ class PhoneTypes(models.Model):
     updateDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return(self.phType)
+        return(self.phType +" "+ str(self.id))
 
 
 # This model contains the details of phone numbers which users 
@@ -76,7 +76,7 @@ class PhoneDetail(models.Model):
     updateDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return(str(self.phoneNum) + str(self.id))
+        return(str(self.phoneNum) +" "+ str(self.id))
 
 
 
@@ -88,7 +88,7 @@ class AddressTypes(models.Model):
     updateDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return(self.addType)
+        return(self.addType +" "+ str(self.id))
 
 class AddressDetail(models.Model):
     id = models.AutoField(primary_key=True)
@@ -110,21 +110,34 @@ class AddressDetail(models.Model):
     def __str__(self):
         return(self.addressLine1 + self.addressLine2)
 
+#subsrcip price
 class SubscriptionTypes(models.Model):
     id = models.AutoField(primary_key=True)
     subType = models.CharField(max_length=200,blank=False,null=False,)
+    subprice = models.DecimalField(max_digits=10,decimal_places=2)
     createDate = models.DateTimeField(auto_now_add=True)
     updateDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return(self.subType)
+        return(self.subType +" "+ str(self.id))
 
+class SubscriptionPeriods(models.Model):
+    id = models.AutoField(primary_key=True)
+    subPeriod = models.IntegerField(blank=False,null=False,)
+    createDate = models.DateTimeField(auto_now_add=True)
+    updateDate = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return(self.subType +" "+ str(self.id))
+
+#subtype = ad , --
+#expiration period subtype in a new class
 class SubscriptionDetail(models.Model):
     id = models.AutoField(primary_key=True)
     subType = models.ForeignKey(SubscriptionTypes,on_delete=models.PROTECT)
+    subPeriod = models.ForeignKey(SubscriptionPeriods,on_delete=models.PROTECT)
     createDate = models.DateTimeField(auto_now_add=True)
     renewDate = models.DateTimeField(auto_now=True)
-    exprirationPeriod = models.IntegerField(default=30, null=False)
     gracePeriod = models.IntegerField(default=0, null=False)
     isExpired = models.BooleanField(default=False, null=False)
 
@@ -132,12 +145,62 @@ class SubscriptionDetail(models.Model):
         return(str(self.subType) + ' ' + str(self._id))
 
 
+#======================Payment Reference Field=============
+#Cash on Delivery, Debit Card, Credit Card, PayTm
+'''class PaymentTypes(models.Model): # R
+    id = models.AutoField(primary_key=True)
+    types = models.CharField(max_length=20,blank=False,null=False,)
+    createDate = models.DateTimeField(auto_now_add=True)
+    updateDate = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return(self.types)
+
+class PaymentItem(models.Model): # R
+    id = models.AutoField(primary_key=True)
+    key =  models.CharField(max_length=200, blank=False,null=False)
+    valueType =  models.CharField(max_length=1,blank=False,null=False)
+    maxLength = models.IntegerField(null=False)
+
+    def __str__(self):
+        return(str(self.id))
+
+
+class PaymentDetail(models.Model): # R
+    id = models.AutoField(primary_key=True)
+    types = models.ForeignKey(PaymentTypes,on_delete=models.CASCADE)
+    paymentItems = models.ManyToManyField(PaymentItem)
+
+    def __str__(self):
+        return('Payment Detail id - ' + str(self.id))
+
+class ClientPaymentDetail(models.Model):
+    id = models.AutoField(primary_key=True)
+    types = models.ManyToManyField(PaymentTypes,on_delete=models.CASCADE)
+
+    
+    def __str__(self):
+        return('Payment Detail id - ' + str(self.id))
+
+class ClientPaymentItems(models.Model):
+    id = models.AutoField(primary_key=True)
+    paymentItem = models.ForeignKey(PaymentItem)
+    clientPaymentDetail = models.ForeignKey(ClientPaymentDetail)
+    value =  models.CharField(max_length=1000,blank=False,null=False)
+    
+    def __str__(self):
+        return(str(self.id))'''
+    
+
+#===========================================================
+
 class UserDetails(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     subscriptions = models.ManyToManyField(SubscriptionDetail)
     addresses = models.ManyToManyField(AddressDetail)
     phones = models.ManyToManyField(PhoneDetail)
+    #payments = models.ManyToManyField(ClientPaymentDetail)
 
     def __str__(self):
         return("Details for User : " + str(self.user))

@@ -5,37 +5,6 @@ from User.models import *
 # Create your models here.
 #====================== Product =============================
 
-#======================Payment Reference Field=============
-#Cash on Delivery, Debit Card, Credit Card, PayTm
-class PaymentTypes(models.Model):
-    _id = models.AutoField(primary_key=True)
-    types = models.CharField(max_length=20,blank=False,null=False,)
-    createDate = models.DateTimeField(auto_now_add=True)
-    updateDate = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return(self.types)
-
-class PaymentItem(models.Model):
-    _id = models.AutoField(primary_key=True)
-    key =  models.CharField(max_length=200, blank=False,null=False)
-    value =  models.CharField(max_length=200,blank=False,null=False)
-    maxLength = models.IntegerField(null=False,default=1000)
-
-    def __str__(self):
-        return(self.key)
-
-
-class PaymentDetail(models.Model):
-    _id = models.AutoField(primary_key=True)
-    types = models.ForeignKey(PaymentTypes,on_delete=models.CASCADE)
-    paymentItems = models.ManyToManyField(PaymentItem)
-
-    def __str__(self):
-        return('Payment Detail id - ' + str(self._id))
-#===========================================================
-
-
 # Eg Category Electronics
 class Category(models.Model):
     _id = models.AutoField(primary_key=True)
@@ -101,7 +70,7 @@ class PackageDetails(models.Model):
 class Product(models.Model):
     _id = models.AutoField(primary_key=True)
     shippingDetail = models.ForeignKey(ShippingDetails, null = False, on_delete = models.PROTECT)
-    paymentDetail = models.ForeignKey(PaymentDetail, on_delete=models.PROTECT,)
+    #paymentDetail = models.ForeignKey(PaymentDetail, on_delete=models.PROTECT,)
     thumbnails = models.ForeignKey(Thumbnail, on_delete=models.DO_NOTHING,)
 
     subCategory = models.ForeignKey(SubCategory,on_delete=models.DO_NOTHING, null = False)
@@ -148,7 +117,7 @@ class Comments(models.Model):
 
 class UserOrder(models.Model):
     _id = models.AutoField(primary_key=True)
-    paymentDetail = models.ForeignKey(PaymentDetail, on_delete=models.DO_NOTHING)
+    #paymentDetail = models.ForeignKey(PaymentDetail, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     product = models.ForeignKey(Product, null=False,on_delete=models.DO_NOTHING)
     deliveryAddress = models.ForeignKey(AddressDetail,on_delete=models.DO_NOTHING)
