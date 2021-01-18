@@ -63,7 +63,7 @@ class PhoneTypes(models.Model):
     updateDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return(self.phType +" "+ str(self.id))
+        return(self.phType)
 
 
 # This model contains the details of phone numbers which users 
@@ -76,7 +76,7 @@ class PhoneDetail(models.Model):
     updateDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return(str(self.phoneNum) +" "+ str(self.id))
+        return(str(self.phoneNum))
 
 
 
@@ -88,7 +88,7 @@ class AddressTypes(models.Model):
     updateDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return(self.addType +" "+ str(self.id))
+        return(self.addType)
 
 class AddressDetail(models.Model):
     id = models.AutoField(primary_key=True)
@@ -119,7 +119,7 @@ class SubscriptionTypes(models.Model):
     updateDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return(self.subType +" "+ str(self.id))
+        return(self.subType)
 
 class SubscriptionPeriods(models.Model):
     id = models.AutoField(primary_key=True)
@@ -128,7 +128,7 @@ class SubscriptionPeriods(models.Model):
     updateDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return(self.subType +" "+ str(self.id))
+        return(self.subType)
 
 #subtype = ad , --
 #expiration period subtype in a new class

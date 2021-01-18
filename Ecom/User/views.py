@@ -10,8 +10,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import PhoneDetailForm, AddressDetailForm
 
+from Product.views import home
+
 def index(request):
-    return render(request, "User/index.html")
+    return HttpResponseRedirect('/')
 
 #login register logout---------------------
 def login_view(request):

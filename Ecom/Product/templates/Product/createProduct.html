@@ -1,0 +1,92 @@
+{% extends "User/layout.html" %}
+
+{% block body %}
+    
+    {% if user.is_authenticated %}
+    <form method="POST" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <p>
+        <label>Shipping Types:</label>
+        {{ shippingForm.shippingType }}
+        </p>
+        <p>
+        <label>Shipping Address(es):</label>
+        {{ shippingForm.shippingAdresses }}
+        </p>
+        <p>
+        If no suitable address is added, add Address <a href={% url 'createAddress' %}>Here! <i class="material-icons right">add_location</i> </a>before moving further.
+        </p>
+        <p>
+        <label>Shipping Price:</label>
+        {{ shippingForm.shippingPrice }}
+        </p>
+        <p>
+        <label>SubCategory:</label>
+        {{ form.subCategory }}
+        <p>
+        <label>Title:</label>
+        {{ form.title }}
+        </p>
+        <p>
+        <label>Description:</label>
+        {{ form.description }}
+        </p>
+        <p>
+        <label>Main Image:</label>
+        {{ form.thumbnail1 }}
+        </p>
+        <p>
+        <label>2nd Image (optional):</label>
+        {{ form.thumbnail2 }}
+        </p>
+        <p>
+        <label>3rd Image (optional):</label>
+        {{ form.thumbnail3 }}
+        </p>
+        <p>
+        <label>4th Image (optional):</label>
+        {{ form.thumbnail4 }}
+        </p>
+        <p>
+        <label>5th Image (optional):</label>
+        {{ form.thumbnail5 }}
+        </p>
+        <p>
+        <label>Price:</label>
+        {{ form.price }}
+        </p>
+        <p>
+        <hr>
+        <label>
+            <input type="checkbox" name='incTax'/>
+            <span>Includes Tax?</span>
+        </label>
+        <hr>
+        </p>
+        <p>
+        <label>Available Quantity:</label>
+        {{ form.availableQt }}
+        </p>
+        <p>
+        <hr>
+        <label>
+            <input type="checkbox" name='refundable'/>
+            <span>Refundable??</span>
+        </label>
+        <hr>
+        </p>
+        <p>
+        <label>Refund Period:</label>
+        {{ form.refund_period }}
+        </p>
+        
+        <br>
+        <button class="btn waves-effect waves-light" type="submit" name="action">Create Listing!<i class="material-icons right">add_location</i></button>
+    </form>
+    {% else %}
+        You are Not Logged In
+        <p>Please <a href="{% url 'login' %}">Login</a> in order to create a listing!<br>If not a user,<a href="{% url 'register' %}">Register</a> now!</p>
+
+    {% endif %}
+
+{% endblock %}

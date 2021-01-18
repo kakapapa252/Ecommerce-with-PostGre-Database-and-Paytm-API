@@ -27,7 +27,7 @@ class SubCategory(models.Model):
         return(self.subCategoryType)
 
 #images for product
-class Thumbnail(models.Model):
+'''class Thumbnail(models.Model):
     _id = models.AutoField(primary_key=True)
     thumbnail = models.ImageField(null=False)
     thumbnailDetail = models.CharField(max_length=200, blank=True,null=True)
@@ -36,7 +36,7 @@ class Thumbnail(models.Model):
     #isDeleted = models.DateTimeField(auto_now_add=False)
 
     def __str__(self):
-        return("Thumbnail id - " + str(self._id))
+        return("Thumbnail id - " + str(self._id))'''
 
 class ShippingTypes(models.Model):
     _id = models.AutoField(primary_key=True)
@@ -49,8 +49,8 @@ class ShippingTypes(models.Model):
 
 class ShippingDetails(models.Model):
     _id = models.AutoField(primary_key=True)
-    shippingType = models.ForeignKey(ShippingTypes, on_delete=models.PROTECT, null = False)
-    shippingAdresses = models.ForeignKey(AddressDetail, on_delete=models.CASCADE, null = False)
+    shippingType = models.ManyToManyField(ShippingTypes)
+    shippingAdresses = models.ManyToManyField(AddressDetail)
     shippingPrice = models.DecimalField(max_digits=10,decimal_places=2)
 
     def __str__(self):
@@ -69,25 +69,34 @@ class PackageDetails(models.Model):
 
 class Product(models.Model):
     _id = models.AutoField(primary_key=True)
-    shippingDetail = models.ForeignKey(ShippingDetails, null = False, on_delete = models.PROTECT)
-    #paymentDetail = models.ForeignKey(PaymentDetail, on_delete=models.PROTECT,)
-    thumbnails = models.ForeignKey(Thumbnail, on_delete=models.DO_NOTHING,)
-
+    
     subCategory = models.ForeignKey(SubCategory,on_delete=models.DO_NOTHING, null = False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
-    packageDetail = models.ForeignKey(PackageDetails, on_delete=models.PROTECT, null=True, blank= True)
+    
+
+    shippingDetail = models.ForeignKey(ShippingDetails, null = False, on_delete = models.PROTECT)
+    #packageDetail = models.ForeignKey(PackageDetails, on_delete=models.PROTECT, null=True, blank= True)
+    #paymentDetail = models.ForeignKey(PaymentDetail, on_delete=models.PROTECT,)
 
     title = models.CharField(max_length=200, blank=False,null=False)
-    searchCriteria = models.CharField(max_length=200, blank=True,null=True)
+    thumbnail1 = models.ImageField(null=False)
+    thumbnail2= models.ImageField(null=True, blank=True)
+    thumbnail3 = models.ImageField(null=True, blank=True)
+    thumbnail4 = models.ImageField(null=True, blank=True)
+    thumbnail5 = models.ImageField(null=True, blank=True)
+    description = models.TextField()
+
+    #searchCriteria = models.CharField(max_length=200, blank=True,null=True)
     price = models.DecimalField(max_digits=10,decimal_places=2)
     incTax = models.BooleanField(default=False)
 
     # Fee can be included in UserOrder Instead
     #fee = models.DecimalField(max_digits=10,decimal_places=2) 
-    availableQt = models.PositiveIntegerField(null=False, blank=False, default= 0)
+    
     refundable = models.BooleanField(default=False)
-    refund_period = models.IntegerField(null=True, blank=True)
-    description = models.TextField()
+    refund_period = models.IntegerField(null=True, blank=True, default= 0)
+    
+    availableQt = models.PositiveIntegerField(null=False, blank=False, default= 0)
     inProcessQt = models.IntegerField(null=False, blank=False,default=0)
     soldQt = models.IntegerField(null=False, blank=False,default=0)
 
