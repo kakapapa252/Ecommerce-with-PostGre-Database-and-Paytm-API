@@ -1,7 +1,7 @@
 {% extends "User/layout.html" %}
 
 {% block body %}
-    <h2><a href="{% url 'createProduct' %}" class="secondary-content">Create Product</a></h2><br>
+    <h2>Active Products</h2><br>
     <div class="row">
   	{% for product in products %}
     <div class="col s12 m4">
