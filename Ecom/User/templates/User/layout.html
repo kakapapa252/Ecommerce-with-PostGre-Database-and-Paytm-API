@@ -1,132 +1,64 @@
 {% load static %}
-
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>{% block title %}Shop{% endblock %}</title>
+<html>
 
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>{% block title %}Shop{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dist/site.css' %}" /> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% block customstatic %}
+    {% endblock %}
+</head>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link href="{% static 'css/styles.css' %}" rel="stylesheet">
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-        <style> 
-            body { 
-            display: flex; 
-            min-height: 100vh; 
-            min-width: 130vh;
-            flex-direction: column; 
-            } 
-        
-            main { 
-            flex: 1 0 auto; 
-            } 
-    </style> 
-    </head>
-
-
-
-
-
-    <body class="container">
-    <!--- NAVBAR -->
-        <ul id="dropdown1" class="dropdown-content">
-            
-            <li><a href="{% url 'changePassword' %}">Change Password</a></li>
-            <li class="divider"></li>
-            <!---<li><a href="{% url 'createPhone' %}">Add Phone</a></li>-->
-            <li><a href="{% url 'phoneDetailView' %}">Phonebook</a></li>
-            <li><a href="{% url 'addressDetailView' %}">Addressbook</a></li>
-            <li class="divider"></li>
-            <li><a href="{% url 'createProduct' %}">Create Product</a></li>
-            <li class="divider"></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-        </ul>
-        <header>
-        <nav>
-            <div class="nav-wrapper" style="padding-left:5px;">
-                <a href="{% url 'index' %}" class="brand-logo left">SHOP</a>
-                <ul class="hide-on-down right">
-                <li>
-                <form>
-                  <div class="input-field">
-                    <input id="search" type="search" placeholder="Search for item..." required>
-                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
-                  </div>
-                </form>
-                </li>
-                {% if user.is_authenticated %}
-                <li><a href="#!" style="padding-right: 20px;"><span style="background-color: #2C2B30" class="new badge" data-badge-caption="">0</span><i class="material-icons left">shopping_cart</i></a></li>
-                <li><a href="#!">Subscribe</a></li>
-                <!-- Dropdown Trigger -->
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ user.fullname }}<i class="material-icons right">arrow_drop_down</i></a></li>
-                {% else %}
-                <li>
-                </li>
-                <li><a href="{% url 'login' %}">Log In</a></li>
-                <li>
-                |
-                </li>
-                <li><a href="{% url 'register' %}">Register</a></li> 
-                {% endif %}
-                </ul>
-
-        </nav>
-        </header>
-
-        {% if messages %}
-            {% for message in messages %}
-                {% if message.tags == 'success' %}
-                    <script type="text/javascript">M.toast({html: "{{message}}", classes:'green rounded', displayLenght:2000})</script>
-                {% elif message.tags == 'info' %}
-                    <script type="text/javascript">M.toast({html: "{{message}}", classes:'red rounded', displayLenght:2000})</script>
-                {% elif message.tags == 'error' %}
-                    <script type="text/javascript">M.toast({html: "{{message}}", classes:'orange rounded', displayLenght:2000})</script>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-
-
-
-        <!-- Page body -->
-        <main style="margin-top:20px; margin-bottom:20px;">
-            {% block body %}
-            {% endblock %}
-        </main>
-
-
-    <footer class="page-footer">
-          <div class="container">
-            <div class="row">
-              <div class="col l6 s12">
-                <h5 class="white-text">Shop Footer</h5>
-                <p class="grey-text text-lighten-4">Welcome to Shop. For further help, please use the links provided.</p>
-              </div>
-              <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Links</h5>
-                <ul>
-                  <li>Email us at : <a class="grey-text text-lighten-3" href = "mailto: kartikay252081075@gmail.com">kartikay252081075@gmail.com</a></li>
-                  <li>Call us at : <a class="grey-text text-lighten-3" href="tel: +919212199223">+91-9212199223</a></li>
-                  <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                  <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-                </ul>
-              </div>
+<body>
+    <div class="body-container">
+        <div class="logo-container">
+            <span class="logo">Shop</span>
+            <button class="button-main login">Login</button>
+            <!--button class="button-main signup">Signup</button>
+            <button class="button-main checkout">Checkout</button>
+            <button class="button-main logout">Logout</button-->
+            <div class="search-container">
+              {% include "User/searchBarCol.html" %} 
             </div>
-          </div>
-          <div class="footer-copyright">
-            <div class="container">
-            © 2014 Copyright Text
-            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+        </div>
+       
+        <div class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-brand">
+                  <input type="checkbox" id="drop-menu" />
+                  <label class="navbar-brand-content" for="drop-menu">
+                    <div class="side-bar">
+                      {% include "User/sidebarmenu.html" %} 
+                    </div>
+                    <div class="menu-liner-container">
+                      <div class="menu-liner"></div>
+                      <div class="menu-liner"></div>
+                      <div class="menu-liner"></div>    
+                    </div>
+                  </label>
+                </div>
+                <div class="search-container-submenu">
+                  {% include "User/searchBarCol.html" %} 
+                </div>    
+                <div class="cart">
+                    <svg width="15" height="15" viewBox="0 0 15 15">
+                        <title>Shopping cart</title>
+                        <path fill="currentColor"
+                            d="M12 12c.8 0 1.5.7 1.5 1.5S12.8 15 12 15s-1.5-.7-1.5-1.5.7-1.5 1.5-1.5zM0 0h2.5l.7 1.5h11.1c.5 0 .8.4.8.8 0 .1 0 .2-.1.4l-2.7 4.9c-.3.4-.8.6-1.4.6H5.3l-.6 1.2v.1c0 .1.1.1.2.1h8.7v1.5h-9c-.9.1-1.6-.6-1.6-1.4 0-.2.1-.5.1-.7l1-1.9-2.6-5.6H0V0zm4.5 12c.8 0 1.5.7 1.5 1.5S5.3 15 4.5 15 3 14.3 3 13.5 3.7 12 4.5 12z">
+                        </path>
+                    </svg>
+                    <span class="price"><span class="sup">Rs </span><span class="priceval">0.00</span></span>
+                </div>
             </div>
-          </div>
-    </footer>
+        </div>
 
-    </body>
-<script type="text/javascript">M.AutoInit();</script>
-   
+        <div class="body-content">
+          {% block body %}
+          {% endblock %}
+        </div>
+    </div>
+</body>
 </html>

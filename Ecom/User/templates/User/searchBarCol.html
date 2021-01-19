@@ -1,29 +1,47 @@
-<li>
-              <div style="border:2px;height: 65px;width: 120%;background-color: #2C2B30;border-radius:10px;">
-                <form class="form-inline">
-                    <div class="input-field" style=" width: 80%">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search for item..." aria-label="Search" required>
-                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
-                    </div>
-                    <button class="btn btn-outline-success my-2 my-sm-0" style="background-color:white;color: #2C2B30;height:65px;width:20%;border-color: #2C2B30;" type="submit">Search</button>
-                </form>
-              </div>
-          </li>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/dist/searchbar.css' %}" /> 
+
+
+
+<div class="search-ctrl">
+  <div class="search">
+    <input class="search-input" placeholder="Search for item..." aria-label="Search" required>
+    <button type="submit"><i class="fa fa-search"></i></button>
+  </div>
+</div>
+
+
+<!--li>
+  <div style="border:2px;height: 65px;width: 120%;background-color: #2C2B30;border-radius:10px;">
+    <form class="form-inline">
+      <div class="input-field" style=" width: 80%">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search for item..." aria-label="Search" required>
+        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+        <i class="material-icons">close</i>
+      </div>
+      <button class="btn btn-outline-success my-2 my-sm-0"
+        style="background-color:white;color: #2C2B30;height:65px;width:20%;border-color: #2C2B30;"
+        type="submit">Search</button>
+    </form>
+  </div>
+</li>
 
 <ul style="width:100%">
-            <li style="width:100%">
-            <div  style="border:2px;background-color: #2C2B30;border-radius:10px;">
-            
-                <form class="form-inline" style="width:100%">
-                    <label class="label-icon" for="search" style="width:5%"><i class="material-icons">search</i></label>
-                    <div class="input-field" style=" width: 75%; ">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search for item..." aria-label="Search" required>
-                    
-                    <i class="material-icons">close</i>
-                    </div>
-                    <button class="btn btn-outline-success my-2 my-sm-0" style="background-color:white;color: #2C2B30;height:65px;width:20%;border-color: #2C2B30;" type="submit">Search</button>
-                </form>
-              </div>
-              </li> 
-              </ul>
+  <li style="width:100%">
+    <div style="border:2px;background-color: #2C2B30;border-radius:10px;">
+
+      <form class="form-inline" style="width:100%">
+        <label class="label-icon" for="search" style="width:5%"><i class="material-icons">search</i></label>
+        <div class="input-field" style=" width: 75%; ">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search for item..." aria-label="Search"
+            required>
+
+          <i class="material-icons">close</i>
+        </div>
+        <button class="btn btn-outline-success my-2 my-sm-0"
+          style="background-color:white;color: #2C2B30;height:65px;width:20%;border-color: #2C2B30;"
+          type="submit">Search</button>
+      </form>
+    </div>
+  </li>
+</ul-->

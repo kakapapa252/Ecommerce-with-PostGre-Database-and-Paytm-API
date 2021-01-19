@@ -1,0 +1,40 @@
+@mixin sidemenu-font {
+    letter-spacing: .1em;
+    text-align: left;
+    padding: 5px;
+}
+
+.sidebar-menu{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    .side-bar-heading{
+        background-color: #000;
+        color: #fff;
+        font-size: 30px;
+        font-weight: bold;
+        width:100%;
+        @include sidemenu-font();
+    }
+    .side-bar-subheading{
+        background-color: #fff;
+        color: #000;
+        font-size: 20px;
+        font-weight: bold;
+        @include sidemenu-font();
+        width:100%;
+        border-bottom: 1px solid #000;
+    }
+    .side-bar-item{
+        background-color: #fff;
+        color: #000;
+        font-size: 20px;
+        @include sidemenu-font();
+    }
+}
