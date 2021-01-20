@@ -100,7 +100,7 @@ class AddressDetail(models.Model):
     addressLine4 = models.CharField(max_length=200,blank=True,null=True)
     addressLine5 = models.CharField(max_length=200,blank=True,null=True)
     zipCode = models.IntegerField(max_length=6,blank=False,null=False)
-    zip4 = models.IntegerField(max_length=4,blank=True,null=True)
+    zip4 = models.PositiveIntegerField(max_length=4,blank=True,null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True,null=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True,null=True)
     isPrimary = models.BooleanField(default=False)

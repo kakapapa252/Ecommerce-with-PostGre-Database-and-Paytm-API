@@ -3,18 +3,21 @@
 <div class="side-bar-container">
     <div class="sidebar-menu">
         <div class="side-bar-heading">
-            Hello @User
+            Hello {{request.user.fullname}}
         </div>
         <!---For Loop for Categories-->
         <div class="side-bar-subheading"> 
             Category 1
         </div>
+        {% if user.is_authenticated %}
         <div class="side-bar-subheading"> 
-            Category 2
+            <a href="{% url 'phoneDetailView' %}">Phonebook</a><br>
+            <a href="{% url 'addressDetailView' %}">Addressbook</a><br>
+            <a href="{% url 'createProduct' %}">Create Product</a><br>
+            <a href="{% url 'changePassword' %}">Change Password</a>
+            
         </div>
-        <div class="side-bar-subheading"> 
-            Category 3
-        </div>
+        {% endif %}
         <!-- End for Loop-->
     </div>
 </div>

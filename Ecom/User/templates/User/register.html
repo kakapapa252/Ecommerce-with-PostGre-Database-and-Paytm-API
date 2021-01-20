@@ -10,22 +10,18 @@
 
     <form action="{% url 'register' %}" method="post">
         {% csrf_token %}
-        <div class="form-group">
-            <input class="form-control" autofocus type="text" name="username" placeholder="Full Name">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="email" name="email" placeholder="Email Address">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="tel" name="phonenumber" placeholder="Mobile (add '+countrycode' before number)">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
-        </div>
-        <input class="btn btn-primary" type="submit" value="Register">
+        <label>Fullname </label>
+            <input class="form-control" autofocus type="text" name="username" placeholder="Full Name"><br>
+        <label>Email</label>
+            <input class="form-control" type="email" name="email" placeholder="Email Address"><br>
+        <label>Mobile (+91 to precede your number)</label>
+            <input class="form-control" type="tel" name="phonenumber" placeholder="(add '+countrycode' before number)"><br>
+        <label>Password</label>
+            <input class="form-control" type="password" name="password" placeholder="Password"><br>
+        <label>Confirm Password"</label>
+            <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password"><br>
+        
+        <input class="btn btn-primary" type="submit" value="Register"><br>
     </form>
 
     Already have an account? <a href="{% url 'login' %}">Log In here.</a>

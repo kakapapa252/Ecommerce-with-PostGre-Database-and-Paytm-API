@@ -16,7 +16,11 @@
     <div class="body-container">
         <div class="logo-container">
             <span class="logo">Shop</span>
-            <button class="button-main login">Login</button>
+            {% if user.is_authenticated %}
+            <button class="button-main login"><a href="{% url 'logout' %}">Logout</a></button>
+            {%else%}
+            <button class="button-main login"><a href="{% url 'login' %}">Login</a></button>
+            {%endif%}
             <!--button class="button-main signup">Signup</button>
             <button class="button-main checkout">Checkout</button>
             <button class="button-main logout">Logout</button-->

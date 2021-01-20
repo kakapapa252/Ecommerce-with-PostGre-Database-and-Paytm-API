@@ -5,26 +5,30 @@
 {% if user.is_authenticated %}
 <h2> Your Address Details - </h2>
     {% for address in addresses %}
-    <ul class="collection with-header">
-        <li class="collection-item">
+    <ul>
+        <li>
         <div>
         {% if address.isPrimary %}
-        <i class="material-icons left">beenhere</i></a><br><br>
-        {% else %}
-        <a href="{% url 'setPrimaryAddress' address.id %}" class="secondary-content"><i class="material-icons right">crop_free</i>Set Primary</a>
-        {% endif %}
+        >- Primary -> <br>
         <i>{{ address.addType }}:</i><br>{{ address.addressLine1 }},<br> {{ address.addressLine2 }}, <br> PinCode : <strong>{{ address.zipCode }}</strong>
         
-        <a href="{% url 'deleteAddress' address.id %}" class="secondary-content"><i class="material-icons right">location_off</i></a>
-        <a href="{% url 'updateAddress' address.id %}" class="secondary-content"><i class="material-icons right">mode_edit</i></a>
+        <a href="{% url 'deleteAddress' address.id %}" class="secondary-content">{Delete}</a>
+        <a href="{% url 'updateAddress' address.id %}" class="secondary-content">{Update}</a>
+        {% else %}
+        <i>{{ address.addType }}:</i><br>{{ address.addressLine1 }},<br> {{ address.addressLine2 }}, <br> PinCode : <strong>{{ address.zipCode }}</strong>
+        
+        <a href="{% url 'deleteAddress' address.id %}" class="secondary-content">{Delete}</a>
+        <a href="{% url 'updateAddress' address.id %}" class="secondary-content">{Update}</a>
+        <a href="{% url 'setPrimaryAddress' address.id %}">{Set Primary}</a><br>
+        {% endif %}
         </div>
-        </li>
+        </li><hr>
     </ul>
     {% empty %}
     No Saved Addresses!
     {% endfor %}
     
-    <a href="{% url 'createAddress' %}" class="waves-effect waves-light btn-large" style="background-color: #2C2B30;"><i class="material-icons left">add_location</i>Add Address</a>
+    <a href="{% url 'createAddress' %}">Add Address</a>
 {% else %}
 You are Not Logged In
 <p>Please <a href="{% url 'login' %}">Login</a> in order to create a listing!<br>If not a user,<a href="{% url 'register' %}">Register</a> now!</p>
