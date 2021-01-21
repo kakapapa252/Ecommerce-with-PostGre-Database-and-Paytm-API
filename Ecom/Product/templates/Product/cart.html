@@ -1,0 +1,32 @@
+{% extends "User/layout.html" %}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+<h2> Your Cart- </h2>
+    {% for cartProduct in cartProducts %}
+    <ul class="collection with-header">
+        <li class="collection-item">
+        {{ cartProduct.product.title }}<br>
+        <img src="{{ cartProduct.product.thumbnail1.url|default_if_none:'#' }}" width="100" height="100"><br>
+         
+        <i class="right"> Q :{{ cartProduct.quantity }}</i>
+        Total: &#8377;{{cartProduct.get_total_item_price}}
+        
+        <a href="{% url 'addToCart' cartProduct.product.id %}" class="secondary-content"><i class="material-icons right">add</i></a>
+        <a href="{% url 'removeFromCart' cartProduct.product.id %}" class="secondary-content"><i class="material-icons right">remove</i></a>
+        
+        </li>
+    </ul>
+    {% empty %}
+    No Saved Items!
+    {% endfor %}
+    {% if cartSubTotal %}
+    <strong>Subtotal :</strong>  &#8377;{{ cartSubTotal }}
+    {% endif %}
+{% else %}
+You are Not Logged In
+<p>Please <a href="{% url 'login' %}">Login</a> in order to create a listing!<br>If not a user,<a href="{% url 'register' %}">Register</a> now!</p>
+{% endif %}
+
+{% endblock %}

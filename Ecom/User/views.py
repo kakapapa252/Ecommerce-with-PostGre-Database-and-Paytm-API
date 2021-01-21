@@ -8,12 +8,24 @@ from .models import *
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import PhoneDetailForm, AddressDetailForm
+from .forms import PhoneDetailForm, AddressDetailForm, SubscriptionDetailForm
 
 from Product.views import home
 
 def index(request):
     return HttpResponseRedirect('/')
+
+
+#Subscription-------------------------------------
+def subscribe(request):
+    user = request.user
+    if request.method == "POST":
+        user = request.user
+        messages.success(request, f"Subscribed")
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        form = SubscriptionDetailForm
+        return render(request, "User/subscribe.html", context={"form": form})
 
 #login register logout---------------------
 def login_view(request):
@@ -22,13 +34,21 @@ def login_view(request):
         if '@' in emailf:
             pass
         else:
-            emailf = User.objects.get(phonenumber=emailf).email
+            try:
+                emailf = User.objects.get(phonenumber=emailf).email
+            except:
+                return render(request, "User/login.html", {
+                "message": "Invalid Email or Phone."
+            })
         # Attempt to sign user in
         password = request.POST["password"]
         
         user = authenticate(request, email=emailf, password=password)
         # Check if authentication successful
         if user is not None:
+            mess = "You've Logged in shop- " + str(emailf) + '!'
+            send_mail('Successful Login', mess,'kartikay252081075@gmail.com', [user.email],fail_silently=False,)
+
             login(request, user)
             #print(str(request.user.is_superuser))
             return HttpResponseRedirect(reverse("index"))
@@ -42,8 +62,7 @@ def login_view(request):
 @login_required(login_url='/login')
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("index"))
-
+    return HttpResponseRedirect(reverse("login"))
 
 def register(request):
     if request.method == "POST":
@@ -62,26 +81,28 @@ def register(request):
         try:
             user = User.objects.create_user(fullname, email, phonenumber, password)
             user.save()
-            #create user detail object
-            userDetail = UserDetails(user=user)
-            userDetail.save()
-            #add phone number as defualt phone
-            phType = PhoneTypes.objects.get(phType="Primary").phType 
-            phoneDetail = PhoneDetail(phoneNum=phonenumber)
-            phoneDetail.save()
-            #add phonedetail t0 userDetail
-            userDetail.phones.add(phoneDetail)
-            #send email of successful registration
-            mess = "You've Registered successfully to Shop with Email - " + str(email) + ' and Mobile ' + str(phonenumber) + '!'
-            send_mail('Successful Registration', mess,'kartikay252081075@gmail.com', [email],fail_silently=False,)
-        except IntegrityError:
+        except:
             return render(request, "User/register.html", {
-                "message": "Email or Phone already taken."
+                "message": "Email or Phone already taken. (Please enter all fields.)"
             })
+        #create user detail object
+        userDetail = UserDetails(user=user)
+        userDetail.save()
+        #add phone number as defualt phone
+        phType = PhoneTypes.objects.get(phType="Primary").phType 
+        phoneDetail = PhoneDetail(phoneNum=phonenumber)
+        phoneDetail.save()
+        #add phonedetail t0 userDetail
+        userDetail.phones.add(phoneDetail)
+        #send email of successful registration
+        mess = "You've Registered successfully to Shop with Email - " + str(email) + ' and Mobile ' + str(phonenumber) + '!'
+        send_mail('Successful Registration', mess,'kartikay252081075@gmail.com', [user.email],fail_silently=False,)
+
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        messages.success(request, f"Registered")
+        return HttpResponseRedirect(reverse("subscribe"))
     else:
-        return render(request, "User/register.html")\
+        return render(request, "User/register.html")
 
 @login_required(login_url='/login')
 def changePassword(request):
@@ -106,6 +127,7 @@ def changePassword(request):
             return render(request, "User/changePassword.html", {"message": "Check Current Password."})
     else:
         return render(request, "User/changePassword.html")
+
 
 #phonebook-------------------------------------
 @login_required(login_url='/login')
@@ -247,3 +269,4 @@ def setPrimaryAddress(request, id):
     else:
         messages.error(request, f"Unable to Set Primary.")
     return HttpResponseRedirect(reverse("addressDetailView"))
+

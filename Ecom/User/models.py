@@ -99,7 +99,7 @@ class AddressDetail(models.Model):
     addressLine3 = models.CharField(max_length=200,blank=True,null=True)
     addressLine4 = models.CharField(max_length=200,blank=True,null=True)
     addressLine5 = models.CharField(max_length=200,blank=True,null=True)
-    zipCode = models.IntegerField(max_length=6,blank=False,null=False)
+    zipCode = models.PositiveIntegerField(max_length=6,blank=False,null=False)
     zip4 = models.PositiveIntegerField(max_length=4,blank=True,null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True,null=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True,null=True)
@@ -114,12 +114,12 @@ class AddressDetail(models.Model):
 class SubscriptionTypes(models.Model):
     id = models.AutoField(primary_key=True)
     subType = models.CharField(max_length=200,blank=False,null=False,)
-    subprice = models.DecimalField(max_digits=10,decimal_places=2)
+    subPrice = models.DecimalField(max_digits=10,decimal_places=2)
     createDate = models.DateTimeField(auto_now_add=True)
     updateDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return(self.subType)
+        return(self.subType + ' Price : ' + str(self.subPrice))
 
 class SubscriptionPeriods(models.Model):
     id = models.AutoField(primary_key=True)
@@ -128,7 +128,7 @@ class SubscriptionPeriods(models.Model):
     updateDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return(self.subType)
+        return(str(self.subPeriod) + ' Months')
 
 #subtype = ad , --
 #expiration period subtype in a new class
@@ -142,7 +142,7 @@ class SubscriptionDetail(models.Model):
     isExpired = models.BooleanField(default=False, null=False)
 
     def __str__(self):
-        return(str(self.subType) + ' ' + str(self._id))
+        return(str(self.subType) + ' ' + str(self.id))
 
 
 #======================Payment Reference Field=============

@@ -1,7 +1,8 @@
 {% extends "User/layout.html" %}
 
 {% block body %}
-    <h2>Active Products</h2><br>
+
+    <h2>All Active Products</h2><br>
     <div class="row">
   	{% for product in products %}
     <div class="col s12 m4">
@@ -10,12 +11,12 @@
           <img src="{{ product.thumbnail1.url|default_if_none:'#' }}">
           <span class="card-title activator red-text text-darken-4"><strong>{{ product.title }}</strong></span>
           {% if user.is_authenticated %}
-          <a class="btn-floating halfway-fab waves-effect waves-light red" href="#"><i class="material-icons">add</i></a>
+          <a class="btn-floating halfway-fab waves-effect waves-light red" href="{% url 'addToCart' product.id %}"><i class="material-icons">add</i></a>
           {% endif %}
         </div>
 
         <div class="card-content">
-          <p>Price : Rs.{{ product.price }}<br>Available Quantity: {{ product.availableQt }}</p>
+          <p>Price : &#8377;{{ product.price }}<br>Available Quantity: {{ product.availableQt }}</p>
         </div>
         <div class="card-action">
           <a href="#">View Product</a>

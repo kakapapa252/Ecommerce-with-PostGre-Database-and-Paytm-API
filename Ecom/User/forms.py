@@ -35,3 +35,15 @@ class AddressDetailForm(ModelForm):
     class Meta:
         model = AddressDetail
         fields = ['addType','addressLine1','addressLine2','zipCode']
+
+class SubscriptionDetailForm(ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['subType'].required = True
+        self.fields['subPeriod'].required = True
+
+
+    class Meta:
+        model = SubscriptionDetail
+        fields = ['subType','subPeriod']

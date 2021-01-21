@@ -1,0 +1,31 @@
+{% extends "User/layout.html" %}
+
+{% block body %}
+
+    {% if user.is_authenticated %}
+    <form method="POST" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <p>
+        <label>Subcription Type:</label>
+        {{ form.subType }}
+        <p>
+        <label>Period:</label>
+        {{ form.subPeriod }}
+        </p>
+        <p>
+        <label>
+            <input type="checkbox" name='isPrimary'/>
+            <span>Primary?</span>
+        </label>
+        </p>
+        <br>
+        <button class="btn waves-effect waves-light" type="submit" name="action">Pay Now!<i class="material-icons right">call_made</i></button>
+    </form>
+    If not Interested, Skip to <a href="{% url 'home' %}">Shop</a>
+    {% else %}
+        You are Not Logged In
+        <p>Please <a href="{% url 'login' %}">Login</a> in order to create a listing!<br>If not a user,<a href="{% url 'register' %}">Register</a> now!</p>
+
+    {% endif %}
+
+{% endblock %}

@@ -5,7 +5,21 @@
     {% if user.is_authenticated %}
     <form method="POST" enctype='multipart/form-data'>
         {% csrf_token %}
-        {{form.as_p}}
+        <p>
+        <label>Type:</label>
+        {{ form.addType }}
+        <p>
+        <label>Address Line 1:</label>
+        {{ form.addressLine1 }}
+        </p>
+        <p>
+        <label>Address Line 2:</label>
+        {{ form.addressLine2 }}
+        </p>
+        <p>
+        <label>Zip Code:</label>
+        {{ form.zipCode }}
+        </p>
         <p>
         <label>
             <input type="checkbox" name='isPrimary'/>
@@ -13,7 +27,7 @@
         </label>
         </p>
         <br>
-        <button class="btn waves-effect waves-light" type="submit" name="action">Add to AddressBook!</button>
+        <button class="btn waves-effect waves-light" type="submit" name="action">Add to AddressBook!<i class="material-icons right">add_location</i></button>
     </form>
     {% else %}
         You are Not Logged In

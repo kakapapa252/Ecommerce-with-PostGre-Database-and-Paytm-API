@@ -18,8 +18,22 @@ def home(request):
     products = Product.objects.all()
     return render(request, "Product/home.html", context={"products":products})
 
+def category(request):
+    categories = Category.objects.all()
+    return render(request, "Product/categories.html", context={"categories":categories})
 
-@login_required(login_url='/login')
+def subCategory(request,id):
+    category = Category.objects.get(id=id)
+    subCategories = SubCategory.objects.filter(category=category)
+    return render(request, "Product/subCategories.html", context={"subCategories":subCategories})
+
+def subCategoryProducts(request,id):
+    subCategory = SubCategory.objects.get(id=id)
+    products = Product.objects.filter(subCategory=subCategory)
+    return render(request, "Product/subCategoryProducts.html", context={"products":products})
+
+
+@login_required(login_url='user/login')
 def createProduct(request):
     user = request.user
     if request.method == "POST":
@@ -54,3 +68,56 @@ def createProduct(request):
     productForm = CreateProductForm
     shippingForm = CreateShippingForm(user)
     return render(request, "Product/createProduct.html", context={"form": productForm, "shippingForm": shippingForm})
+
+
+def cartCount(request):
+    user = request.user
+    cartCount = 0
+    try:
+        if user is not None:
+            cart = Cart.objects.filter(user=user)
+            for i in cart:
+                cartCount += i.quantity
+        return cartCount
+    except:
+        return cartCount
+
+@login_required(login_url='user/login')
+def addToCart(request,id):
+    product = get_object_or_404(Product,id=id)
+    user = request.user
+    cartItem ,created = Cart.objects.get_or_create(product = product, user = user,)
+    if created:
+        messages.success(request, f"Added To Cart") 
+        cartItem.save()
+    else:
+        cartItem.quantity += 1
+        cartItem.save()
+        messages.success(request, f"Added Quantity") 
+
+    return HttpResponseRedirect(reverse("cart"))
+
+@login_required(login_url='user/login')
+def removeFromCart(request,id):
+    product = get_object_or_404(Product,id=id)
+    user = request.user
+    cartItem = Cart.objects.get(product = product, user = user,)
+    if cartItem.quantity > 1:
+        cartItem.quantity -= 1
+        messages.success(request, f"Reduced Quantity") 
+        cartItem.save()
+    else:
+        messages.success(request, f"Removed from Cart") 
+        cartItem.delete()
+        
+    return HttpResponseRedirect(reverse("cart"))
+
+
+@login_required(login_url='user/login')
+def cart(request):
+    user = request.user
+    cartProducts =  Cart.objects.filter(user=user)
+    cartSubTotal = 0
+    for cartp in cartProducts:
+        cartSubTotal += cartp.get_total_item_price()
+    return render(request, "Product/cart.html", context={"cartProducts": cartProducts, "cartSubTotal":cartSubTotal})

@@ -1,0 +1,49 @@
+<ul id="dropdown1" class="dropdown-content"> 
+  <li><a href="{% url 'category' %}">Categories</a></li>
+  <li><a href="{% url 'changePassword' %}">Change Password</a></li>
+  <li class="divider"></li>
+  <!---<li><a href="{% url 'createPhone' %}">Add Phone</a></li>-->
+  <li><a href="{% url 'phoneDetailView' %}">Phonebook</a></li>
+  <li><a href="{% url 'addressDetailView' %}">Addressbook</a></li>
+  <li class="divider"></li>
+  <li><a href="{% url 'createProduct' %}">Create Product</a></li>
+  <li class="divider"></li>
+  <li><a href="{% url 'logout' %}">Logout</a></li>
+</ul>
+
+<header>
+<nav>
+<div class="nav-wrapper" style="padding-left:5px;">
+  <a href="{% url 'home' %}" class="brand-logo left">SHOP</a>
+  <ul class="hide-on-down right">
+    <li>
+      <form>
+        <div class="input-field">
+          <input id="search" type="search" placeholder="Search for item..." required>
+          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+          <i class="material-icons">close</i>
+        </div>
+      </form>
+    </li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'cart' %}" style="padding-right: 20px;">
+    <span style="background-color: #2C2B30" class="new badge" data-badge-caption="">{{ cartCount }}</span>
+    <i class="material-icons left">shopping_cart</i>
+    </a></li>
+    <li><a href="{% url 'subscribe' %}">Subscribe</a></li>
+    <!-- Dropdown Trigger -->
+    <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ user.fullname }}<i class="material-icons right">arrow_drop_down</i></a></li>
+    {% else %}
+    <li>
+    </li>
+    <li><a href="{% url 'category' %}">Categories</a></li>
+    <li><a href="{% url 'login' %}">Log In</a></li>
+    <li>
+    |
+    </li>
+    <li><a href="{% url 'register' %}">Register</a></li> 
+    {% endif %}
+  </ul>
+</div>
+</nav>
+</header>

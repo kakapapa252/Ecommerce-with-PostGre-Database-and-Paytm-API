@@ -14,7 +14,7 @@
         {{ shippingForm.shippingAdresses }}
         </p>
         <p>
-        If no suitable address is added, add Address <a href={% url 'createAddress' %}>Here!</a> before moving further.
+        If no suitable address is added, add Address <a href={% url 'createAddress' %}>Here! <i class="material-icons right">add_location</i> </a>before moving further.
         </p>
         <p>
         <label>Shipping Price:</label>
@@ -52,7 +52,7 @@
         {{ form.thumbnail5 }}
         </p>
         <p>
-        <label>Price:</label>
+        <label>Price: (in &#8377;)</label>
         {{ form.price }}
         </p>
         <p>
@@ -81,11 +81,7 @@
         </p>
         
         <br>
-<<<<<<< HEAD
-        <button class="btn waves-effect waves-light" type="submit" name="action">Create Listing</button>
-=======
-        <button class="btn waves-effect waves-light" type="submit" name="action">Create Listing!<i class="material-icons right">add_location</i></button>
->>>>>>> parent of 42234fe... CreateProduct3
+        <button class="btn waves-effect waves-light" type="submit" name="action">Create Listing<i class="material-icons right">launch</i></button>
     </form>
     {% else %}
         You are Not Logged In

@@ -1,0 +1,25 @@
+{% extends "User/layout.html" %}
+
+{% block body %}
+    <h2>Sub-Categories</h2><br>
+    <div class="row">
+  	{% for subCategory in subCategories %}
+    <div class="col s12 m4">
+      <div class="card">
+        <div class="card-image">
+          <img src="{{ subCategory.thumbnail.url|default_if_none:'#' }}">
+        </div>
+        <div class="card-content">
+          <p><strong>{{ subCategory.subCategoryType }}</strong></p>
+        </div>
+        <div class="card-action">
+          <a href="{% url 'subCategoryProducts' subCategory.id %}">View Products</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+	<h1>No active listings!</h1>
+    {% endfor %}
+  </div>
+
+{% endblock %}

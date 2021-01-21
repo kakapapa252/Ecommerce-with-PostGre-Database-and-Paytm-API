@@ -7,8 +7,9 @@ from User.models import *
 
 # Eg Category Electronics
 class Category(models.Model):
-    _id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     categoryType = models.CharField(max_length=20,blank=False,null=False,)
+    thumbnail = models.ImageField(null=True, blank=True)
     createDate = models.DateTimeField(auto_now_add=True)
     updateDate = models.DateTimeField(auto_now=True)
 
@@ -17,8 +18,9 @@ class Category(models.Model):
 
 # Eg SubCategory TV, Refrigerator, AC
 class SubCategory(models.Model):
-    _id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     category = models.ForeignKey(Category,blank=False,null=False, on_delete=models.PROTECT)
+    thumbnail = models.ImageField(null=True, blank=True)
     subCategoryType = models.CharField(max_length=20,blank=False,null=False,)
     createDate = models.DateTimeField(auto_now_add=True)
     updateDate = models.DateTimeField(auto_now=True)
@@ -39,7 +41,7 @@ class SubCategory(models.Model):
         return("Thumbnail id - " + str(self._id))'''
 
 class ShippingTypes(models.Model):
-    _id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     shippingType = models.CharField(max_length=20,blank=False,null=False,)
     createDate = models.DateTimeField(auto_now_add=True)
     updateDate = models.DateTimeField(auto_now=True)
@@ -48,16 +50,16 @@ class ShippingTypes(models.Model):
         return(self.shippingType)
 
 class ShippingDetails(models.Model):
-    _id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     shippingType = models.ManyToManyField(ShippingTypes)
     shippingAdresses = models.ManyToManyField(AddressDetail)
     shippingPrice = models.DecimalField(max_digits=10,decimal_places=2)
 
     def __str__(self):
-        return('ShippingDetail Id - ' + str(self._id))
+        return('ShippingDetail Id - ' + str(self.id))
 
 class PackageDetails(models.Model):
-    _id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     fragile = models.BooleanField(default=False)
     height = models.DecimalField(max_digits=10,decimal_places=2,null = False, blank=False)
     width = models.DecimalField(max_digits=10,decimal_places=2,null = False, blank=False)
@@ -65,10 +67,10 @@ class PackageDetails(models.Model):
     weight = models.DecimalField(max_digits=10,decimal_places=2,null = False, blank=False)
 
     def __str__(self):
-        return('PackageDetails ID - '+str(self._id))
+        return('PackageDetails ID - '+str(self.id))
 
 class Product(models.Model):
-    _id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     
     subCategory = models.ForeignKey(SubCategory,on_delete=models.DO_NOTHING, null = False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
@@ -107,25 +109,29 @@ class Product(models.Model):
         return(self.title)
     
 class Cart(models.Model):
-	user = models.ForeignKey(User,on_delete=models.CASCADE)
-	product = models.ForeignKey(Product,on_delete=models.CASCADE)
-	added_date = models.DateTimeField(default=timezone.now())
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, null=False,on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    added_date = models.DateTimeField(default=timezone.now())
 
-	def __str__(self):
-		return (f"This product {self.product.title} has id: {self.product._id} added by {self.user}")
+    def __str__(self):
+        return (f"Cart of {self.user}")
+
+    def get_total_item_price(self):
+        return self.quantity * self.product.price
 
 class Comments(models.Model):
-    _id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, null=False,on_delete=models.CASCADE)
     description = models.TextField()
     createDate = models.DateTimeField(auto_now_add=True)
     isDeleted = models.DateTimeField(auto_now_add=False)
 
     def __str__(self):
-        return(self.product + '| Comment ID - ' + str(self._id) )
+        return(self.product + '| Comment ID - ' + str(self.id) )
 
 class UserOrder(models.Model):
-    _id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     #paymentDetail = models.ForeignKey(PaymentDetail, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     product = models.ForeignKey(Product, null=False,on_delete=models.DO_NOTHING)
@@ -140,6 +146,6 @@ class UserOrder(models.Model):
     # Address and Phone and Email Detail by Kartik
 
     def __str__(self):
-        return('OrderId - ' + str(self._id) + ' User - ' + str(self.user) + ' Item - '+ str(self.product))
+        return('OrderId - ' + str(self.id) + ' User - ' + str(self.user) + ' Item - '+ str(self.product))
     
 
