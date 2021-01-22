@@ -73,6 +73,7 @@ def createProduct(request):
         if productForm.is_valid and shippingForm.is_valid:
             shippingDetail = shippingForm.save(commit=False)
             shippingDetail.save()
+            shippingForm.save_m2m()
             product = productForm.save(commit=False)
             product.user = user
             try:

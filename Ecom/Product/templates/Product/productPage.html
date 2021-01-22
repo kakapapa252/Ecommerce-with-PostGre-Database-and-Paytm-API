@@ -6,10 +6,21 @@
 
 {% include "Product/slider.html" %} <br>
 
-<i><h5>M.R.P. : &#8377; {{product.price}}</h5></i><br>
+<i><h5>M.R.P. : &#8377; {{product.price}}</h5></i>
 {% if user.is_authenticated %}
-<a class="btn waves-effect waves-light red" href="{% url 'addToCart' product.id %}">Add To Cart <i class="material-icons">add</i></a>
+<a class="btn waves-effect waves-light red right" href="{% url 'addToCart' product.id %}">Add To Cart <i class="material-icons">add</i></a><br><hr>
 {% endif %}
+
+<h5>Delivery Methods:</h5>
+<p>(if Courier service is not included, kindly contact the supplier before making the purchase)</p>
+
+{% for f in product.shippingDetail.shippingType.all %}
+{{f.shippingType}}<br>
+{% endfor %}
+
+<p>(Supplier Email: <a class="red-text" href = "mailto: {{product.user.email}}">{{product.user.email}}</a>)</p>
+<p>(Supplier Contact Number: <a class="red-text" href="tel: {{product.user.phonenumber}}">{{product.user.phonenumber}}</a>)</p>
+
 <hr>
 <i><h5>Product Discription:</h5></i>
 <p style="font-size:140%;">{{product.description}}</p>
