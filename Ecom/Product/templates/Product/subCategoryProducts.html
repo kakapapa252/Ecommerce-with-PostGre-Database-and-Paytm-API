@@ -1,7 +1,7 @@
 {% extends "User/layout.html" %}
 
 {% block body %}
-    <h2>Active Products</h2><br>
+    <a href="{% url 'subCategory' subCat.category.id %}"><h2>{{subCat.subCategoryType}}</h2><br></a>
     <div class="row">
   	{% for product in products %}
     <div class="col s12 m4">
@@ -18,7 +18,7 @@
           <p>Price : &#8377;{{ product.price }}<br>Available Quantity: {{ product.availableQt }}</p>
         </div>
         <div class="card-action">
-          <a href="#">View Product</a>
+          <a href="{% url 'productPage' product.id %}">View Product</a>
         </div>
       </div>
     </div>

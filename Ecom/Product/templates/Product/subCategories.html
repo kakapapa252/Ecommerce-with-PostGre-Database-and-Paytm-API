@@ -1,7 +1,7 @@
 {% extends "User/layout.html" %}
 
 {% block body %}
-    <h2>Sub-Categories</h2><br>
+    <a href="{% url 'category' %}"><h2>{{cat}}</h2><br></a>
     <div class="row">
   	{% for subCategory in subCategories %}
     <div class="col s12 m4">

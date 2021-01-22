@@ -19,7 +19,7 @@
           <p>Price : &#8377;{{ product.price }}<br>Available Quantity: {{ product.availableQt }}</p>
         </div>
         <div class="card-action">
-          <a href="#">View Product</a>
+          <a href="{% url 'productPage' product.id %}">View Product</a>
         </div>
       </div>
     </div>

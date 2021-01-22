@@ -1,15 +1,23 @@
 <ul id="dropdown1" class="dropdown-content"> 
-  <li><a href="{% url 'category' %}">Categories</a></li>
-  <li><a href="{% url 'changePassword' %}">Change Password</a></li>
-  <li class="divider"></li>
   <!---<li><a href="{% url 'createPhone' %}">Add Phone</a></li>-->
   <li><a href="{% url 'phoneDetailView' %}">Phonebook</a></li>
   <li><a href="{% url 'addressDetailView' %}">Addressbook</a></li>
   <li class="divider"></li>
   <li><a href="{% url 'createProduct' %}">Create Product</a></li>
   <li class="divider"></li>
+  <li><a href="{% url 'changePassword' %}">Change Password</a></li>
+  <li class="divider"></li>
   <li><a href="{% url 'logout' %}">Logout</a></li>
 </ul>
+
+<!---Category DropdownMenu-->
+<ul id="dropdown2" class="dropdown-content"> 
+  {% for category in categoryDropdown %}
+  <li><a href="{% url 'subCategory' category.id %}">{{ category.categoryType }}</a></li>
+  {% endfor %}
+  <li><a href="{% url 'category' %}">View All</a></li>
+</ul>
+
 
 <header>
 <nav>
@@ -25,6 +33,7 @@
         </div>
       </form>
     </li>
+    <li><a class="dropdown-trigger" href="#!" data-target="dropdown2">Categories<i class="material-icons right">arrow_drop_down</i></a></li>
     {% if user.is_authenticated %}
     <li><a href="{% url 'cart' %}" style="padding-right: 20px;">
     <span style="background-color: #2C2B30" class="new badge" data-badge-caption="">{{ cartCount }}</span>
@@ -36,7 +45,7 @@
     {% else %}
     <li>
     </li>
-    <li><a href="{% url 'category' %}">Categories</a></li>
+    
     <li><a href="{% url 'login' %}">Log In</a></li>
     <li>
     |

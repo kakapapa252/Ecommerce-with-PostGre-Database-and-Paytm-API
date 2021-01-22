@@ -9,7 +9,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import decimal
-from .forms import CreateProductForm, CreateShippingForm
+from .forms import CreateProductForm, CreateShippingForm, CommentForm
 
 from User.models import UserDetails, AddressDetail
 
@@ -22,15 +22,46 @@ def category(request):
     categories = Category.objects.all()
     return render(request, "Product/categories.html", context={"categories":categories})
 
+
 def subCategory(request,id):
     category = Category.objects.get(id=id)
     subCategories = SubCategory.objects.filter(category=category)
-    return render(request, "Product/subCategories.html", context={"subCategories":subCategories})
+    return render(request, "Product/subCategories.html", context={"subCategories":subCategories, "cat":category.categoryType})
 
 def subCategoryProducts(request,id):
     subCategory = SubCategory.objects.get(id=id)
     products = Product.objects.filter(subCategory=subCategory)
-    return render(request, "Product/subCategoryProducts.html", context={"products":products})
+    return render(request, "Product/subCategoryProducts.html", context={"products":products, "subCat":subCategory})
+
+
+
+def productPage(request,id):
+    product = get_object_or_404(Product, id=id)
+    user = request.user
+    commentForm = CommentForm
+    comments = Comments.objects.filter(product=product)
+
+    if request.method == "POST":
+        commentForm = CommentForm(request.POST,)     
+        if commentForm.is_valid():
+            try:
+                comment_exists = Comments.objects.get(product=product,user=user,description=commentForm["description"].value())
+            except:
+                comment = commentForm.save(commit=False)
+                comment.user = user
+                comment.product = product
+                comment.save()
+            return render(request,"Product/productPage.html", 
+                        context={"product":product ,"commentForm": commentForm, "comments": comments})
+
+        else:
+            return render(request,"Product/productPage.html", 
+                        context={"product":product ,"commentForm": commentForm, "comments": comments})
+            
+
+    return render(request,"Product/productPage.html", 
+                context={"product":product ,"commentForm": commentForm, "comments": comments})
+
 
 
 @login_required(login_url='user/login')
@@ -68,19 +99,6 @@ def createProduct(request):
     productForm = CreateProductForm
     shippingForm = CreateShippingForm(user)
     return render(request, "Product/createProduct.html", context={"form": productForm, "shippingForm": shippingForm})
-
-
-def cartCount(request):
-    user = request.user
-    cartCount = 0
-    try:
-        if user is not None:
-            cart = Cart.objects.filter(user=user)
-            for i in cart:
-                cartCount += i.quantity
-        return cartCount
-    except:
-        return cartCount
 
 @login_required(login_url='user/login')
 def addToCart(request,id):
@@ -121,3 +139,20 @@ def cart(request):
     for cartp in cartProducts:
         cartSubTotal += cartp.get_total_item_price()
     return render(request, "Product/cart.html", context={"cartProducts": cartProducts, "cartSubTotal":cartSubTotal})
+
+#preprocessors---------------------------
+def cartCount(request):
+    user = request.user
+    cartCount = 0
+    try:
+        if user is not None:
+            cart = Cart.objects.filter(user=user)
+            for i in cart:
+                cartCount += i.quantity
+        return cartCount
+    except:
+        return cartCount
+
+def categoryDropdown(request):
+    categories = Category.objects.all()
+    return categories

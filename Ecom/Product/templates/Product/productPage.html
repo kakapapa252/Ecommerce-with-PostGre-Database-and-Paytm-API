@@ -1,0 +1,18 @@
+{% extends "User/layout.html" %}
+
+{% block body %}
+
+<h2>{{product.title}}</h2><br>
+
+{% include "Product/slider.html" %} <br>
+
+<i><h5>M.R.P. : &#8377; {{product.price}}</h5></i><br>
+{% if user.is_authenticated %}
+<a class="btn waves-effect waves-light red" href="{% url 'addToCart' product.id %}">Add To Cart <i class="material-icons">add</i></a>
+{% endif %}
+<hr>
+<i><h5>Product Discription:</h5></i>
+<p style="font-size:140%;">{{product.description}}</p>
+<hr>
+{% include "Product/comments.html" %} 
+{% endblock %}

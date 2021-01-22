@@ -1,0 +1,20 @@
+<i><h5>Product Comments:</h5></i>
+
+{% for comment in comments %}
+    <p><strong>{{ comment.user.fullname }}</strong> : {{ comment.description }} <i class=" right">{{comment.createDate}}</i></p>
+    {% empty %}
+	<h6>No comments!</h6>
+    {% endfor %}
+
+
+{% if user.is_authenticated %}
+    <form method="POST" enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{commentForm.as_p}}
+        <button class="btn waves-effect waves-light" type="submit" name="action">Comment!<i class="material-icons right">send</i></button>
+    </form> 
+{% endif %}
+
+<script type = "text/javascript">
+    document.getElementById('id_description').value='';
+</script>

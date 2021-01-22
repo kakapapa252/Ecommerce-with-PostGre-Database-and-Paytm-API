@@ -2,7 +2,7 @@ from django import forms
 
 from django.db.models import Q
 from django.forms import ModelForm
-from .models import Product, ShippingDetails
+from .models import Product, ShippingDetails, Comments
 from User.models import UserDetails
 
 class CreateProductForm(ModelForm):
@@ -34,3 +34,15 @@ class CreateShippingForm(ModelForm):
     class Meta:
         model = ShippingDetails
         fields = ['shippingType','shippingAdresses','shippingPrice']
+
+
+class CommentForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['description'].label = 'Add Comment'
+        self.fields['description'].required = True
+    
+    class Meta:
+        model = Comments
+        fields = ['description']
