@@ -1,0 +1,15 @@
+<h5>Delivery Methods:</h5>
+<p>(if Courier service is not included, kindly contact the supplier before making the purchase)</p>
+
+{% for f in product.shippingDetail.shippingType.all %}
+<ul>
+<li><h6>{{f.shippingType}}</h6></li>
+</ul>
+{% endfor %}
+{% if product.shippingDetail.shippingPrice > 0%}
+<i>Shipping May Vary From &#8377;0 to &#8377;{{product.shippingDetail.shippingPrice}}</i>
+{% else%}
+No extra shipping Charges!
+{% endif %}
+<p>(Supplier Email: <a class="red-text" href = "mailto: {{product.user.email}}">{{product.user.email}}</a>)</p>
+(Supplier Contact Number: <a class="red-text" href="tel: {{product.user.phonenumber}}">{{product.user.phonenumber}}</a>)
