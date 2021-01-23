@@ -13,7 +13,7 @@ from .forms import CreateProductForm, CreateShippingForm, CommentForm
 
 from User.models import UserDetails, AddressDetail
 
-
+# different shop views -----------------------------------------------------------------------
 def home(request):
     products = Product.objects.all()
     return render(request, "Product/home.html", context={"products":products})
@@ -63,7 +63,7 @@ def productPage(request,id):
                 context={"product":product ,"commentForm": commentForm, "comments": comments})
 
 
-
+# logged in features-------------------------------------------------------------
 @login_required(login_url='user/login')
 def createProduct(request):
     user = request.user
@@ -141,7 +141,39 @@ def cart(request):
         cartSubTotal += cartp.get_total_item_price()
     return render(request, "Product/cart.html", context={"cartProducts": cartProducts, "cartSubTotal":cartSubTotal})
 
-#preprocessors---------------------------
+
+#PAYMETNS-------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#preprocessors----------------------------------------------------
 def cartCount(request):
     user = request.user
     cartCount = 0
