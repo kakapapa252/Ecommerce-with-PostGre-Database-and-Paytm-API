@@ -197,7 +197,7 @@ class ClientPaymentItems(models.Model):
 class UserDetails(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
-    subscriptions = models.ManyToManyField(SubscriptionDetail)
+    subscriptions = models.ForeignKey(SubscriptionDetail, on_delete=models.DO_NOTHING, null = True, blank= True)
     addresses = models.ManyToManyField(AddressDetail)
     phones = models.ManyToManyField(PhoneDetail)
     #payments = models.ManyToManyField(ClientPaymentDetail)
