@@ -13,5 +13,5 @@ admin.site.register(PackageDetails)
 admin.site.register(Product)
 admin.site.register(Comments)
 admin.site.register(Cart)
-admin.site.register(UserOrder)
+admin.site.register(Order)
 

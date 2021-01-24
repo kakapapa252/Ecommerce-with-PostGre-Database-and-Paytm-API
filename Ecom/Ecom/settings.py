@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'User',
     'Product',
     'Shop',
-
+    
+    'jsonfield',
     'phonenumber_field',
 ]
 

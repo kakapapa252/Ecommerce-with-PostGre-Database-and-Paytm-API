@@ -99,6 +99,10 @@ class AddressDetail(models.Model):
     addressLine3 = models.CharField(max_length=200,blank=True,null=True)
     addressLine4 = models.CharField(max_length=200,blank=True,null=True)
     addressLine5 = models.CharField(max_length=200,blank=True,null=True)
+    
+    city = models.CharField(max_length=50,blank=False,null=False)
+    state = models.CharField(max_length=50,blank=False,null=False)
+
     zipCode = models.PositiveIntegerField(max_length=6,blank=False,null=False)
     zip4 = models.PositiveIntegerField(max_length=4,blank=True,null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True,null=True)
@@ -108,7 +112,7 @@ class AddressDetail(models.Model):
     updateDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return(self.addressLine1 + self.addressLine2)
+        return(self.addressLine1+ ", " + self.addressLine2 + ", " + self.city + ", " + self.state)
 
 #subsrcip price
 class SubscriptionTypes(models.Model):

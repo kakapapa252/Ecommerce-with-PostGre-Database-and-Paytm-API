@@ -1,0 +1,22 @@
+{% extends "User/layout.html" %}
+
+{% block body %}
+Customer Name : {{ user.fullname }} ||   Email : {{ user.email }}<br>
+Bill Amount: &#8377;{{totalAmount}}
+<form method="POST" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <p>
+        <label>Phone:</label>
+        {{ checkoutForm.deliveryPhonenumber }}
+        </p>
+        (<a href={% url 'createPhone' %}>Add New Contact!</a>)
+        <p>
+        <label>Address:</label>
+        {{ checkoutForm.deliveryAddress }}
+        </p>
+        (<a href={% url 'createAddress' %}>Add New Address!</a>)
+        <br><br>
+        <button class="btn waves-effect waves-light" type="submit" name="action">Proceed to Payemnt!<i class="material-icons right">add_location</i></button>
+    </form>
+
+{% endblock %}

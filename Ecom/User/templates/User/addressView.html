@@ -13,7 +13,11 @@
         {% else %}
         <a href="{% url 'setPrimaryAddress' address.id %}" class="secondary-content"><i class="material-icons right">crop_free</i>Set Primary</a>
         {% endif %}
-        <i>{{ address.addType }}:</i><br>{{ address.addressLine1 }},<br> {{ address.addressLine2 }}, <br> PinCode : <strong>{{ address.zipCode }}</strong>
+        <i>{{ address.addType }}:</i><br>
+        {{ address.addressLine1 }},<br>
+        {{ address.addressLine2 }}, <br> 
+        <i>City :</i> {{ address.city }} ,<i> State : </i>{{ address.state }}<br> 
+        <i>PinCode :</i> <strong>{{ address.zipCode }}</strong>
         
         <a href="{% url 'deleteAddress' address.id %}" class="secondary-content"><i class="material-icons right">location_off</i></a>
         <a href="{% url 'updateAddress' address.id %}" class="secondary-content"><i class="material-icons right">mode_edit</i></a>

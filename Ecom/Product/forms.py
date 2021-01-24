@@ -2,7 +2,7 @@ from django import forms
 
 from django.db.models import Q
 from django.forms import ModelForm
-from .models import Product, ShippingDetails, Comments
+from .models import Product, ShippingDetails, Comments, Order
 from User.models import UserDetails
 
 class CreateProductForm(ModelForm):
@@ -46,3 +46,20 @@ class CommentForm(ModelForm):
     class Meta:
         model = Comments
         fields = ['description']
+
+
+class CheckoutForm(ModelForm):
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if user:
+            userDetails = UserDetails.objects.get(user=user)
+            self.fields['deliveryAddress'].queryset = userDetails.addresses.all()
+            userDetails = UserDetails.objects.get(user=user)
+            self.fields['deliveryPhonenumber'].queryset = userDetails.phones.all()
+
+        self.fields['deliveryAddress'].required = True
+        self.fields['deliveryPhonenumber'].required = True
+    class Meta:
+        model = Order
+        fields = ['deliveryAddress', 'deliveryPhonenumber']

@@ -29,12 +29,14 @@ class AddressDetailForm(ModelForm):
         self.fields['addType'].required = True
         self.fields['addressLine1'].required = True
         self.fields['addressLine2'].required = True
+        self.fields['city'].required = True
+        self.fields['state'].required = True
         self.fields['zipCode'].required = True
 
 
     class Meta:
         model = AddressDetail
-        fields = ['addType','addressLine1','addressLine2','zipCode']
+        fields = ['addType','addressLine1','addressLine2','zipCode','city',"state"]
 
 class SubscriptionDetailForm(ModelForm):
     

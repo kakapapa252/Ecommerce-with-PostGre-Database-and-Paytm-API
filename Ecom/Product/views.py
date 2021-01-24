@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render,  get_object_or_404
 from django.urls import reverse
@@ -9,9 +10,19 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import decimal
-from .forms import CreateProductForm, CreateShippingForm, CommentForm
+from .forms import CreateProductForm, CreateShippingForm, CommentForm, CheckoutForm
+from User.forms import AddressDetailForm
 
 from User.models import UserDetails, AddressDetail
+
+import json
+from Paytm import Checksum
+
+
+#needed for production transactions after kyc
+MERCHANT_KEY = 'kbzk1DSbJiV_O3p5'
+#-----------------------------------
+
 
 # different shop views -----------------------------------------------------------------------
 def home(request):
@@ -145,8 +156,72 @@ def cart(request):
 #PAYMETNS-------------------------------------------------------------
 
 
+def checkout(request):
+    #before filling the form
+    user = request.user
+    cartProducts =  Cart.objects.filter(user=user)
+    totalAmount = 0
+    for singleProduct in cartProducts:
+        totalAmount += singleProduct.get_total_item_price()
+    checkoutForm = CheckoutForm(user)
 
+    if request.method == "POST":
+        checkoutForm = CheckoutForm(user, request.POST,)
+        productDetails = {"active":True}
+        if checkoutForm.is_valid: 
+            order = checkoutForm.save(commit=False)
+            order.user = user
+            order.amount = totalAmount
+            order.productDetails = json.dumps(productDetails)
+            order.save()
+            for singleProduct in cartProducts:
+                order.products.add(singleProduct.product)
+                productDetails[str(singleProduct.product.id)] = {
+                    "name" : str(singleProduct.product.title),
+                    "quantity" : str(singleProduct.quantity),
+                    "price" : str(singleProduct.product.price),
+                    "supplier_name" : str(singleProduct.product.user.fullname),
+                    "supplier_phone" : str(singleProduct.product.user.phonenumber),
+                    "supplier_email" : str(singleProduct.product.user.email),
+                }
+                singleProduct.delete()
+            print(productDetails)
+            order.productDetails = json.dumps(productDetails)
+            order.save()
+            
+            #needs to change (Website, MID) after Legal Documentation for it to work
+            param_dict = {
+                'MID':'WorldP64425807474247',
+                'ORDER_ID':str(order.id),
+                'TXN_AMOUNT':str(order.amount),
+                'CUST_ID':str(user.email),
+                'INDUSTRY_TYPE_ID':'Retail',
+                'WEBSITE':'worldpressplg',
+                'CHANNEL_ID':'WEB',
+                'CALLBACK_URL':'http://127.0.0.1:8000/handleRequest/',
+        }
+        
+            param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
+            return render(request, 'Product/paytm.html', {'param_dict': param_dict})
 
+    return render(request, "Product/checkout.html", context={"checkoutForm":checkoutForm,"totalAmount": totalAmount})
+
+@csrf_exempt
+def handleRequest(request):
+    form = request.POST
+    response_dict = {}
+    for i in form.keys():
+        response_dict[i] = form[i]
+        if i == 'CHECKSUMHASH':
+            checksum = form[i]
+
+    verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
+    if verify:
+        if response_dict['RESPCODE'] == '01':
+            print('order successful')
+        else:
+            print('order was not successful because' + response_dict['RESPMSG'])
+    return render(request, 'Product/handleRequest.html', {'response': response_dict})
 
 
 

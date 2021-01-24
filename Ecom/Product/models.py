@@ -1,7 +1,8 @@
 from django.db import models
 from django.utils import timezone
-
+from django.utils.translation import ugettext_lazy as _
 from User.models import *
+
 # Create your models here.
 #====================== Product =============================
 
@@ -130,14 +131,16 @@ class Comments(models.Model):
     def __str__(self):
         return(str(self.product) + '| Comment ID - ' + str(self.id) )
 
-class UserOrder(models.Model):
+class Order(models.Model):
     id = models.AutoField(primary_key=True)
     #paymentDetail = models.ForeignKey(PaymentDetail, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    product = models.ForeignKey(Product, null=False,on_delete=models.DO_NOTHING)
+    products = models.ManyToManyField(Product)
+    productDetails = models.JSONField()
     deliveryAddress = models.ForeignKey(AddressDetail,on_delete=models.DO_NOTHING)
-    price = models.DecimalField(max_digits=10,decimal_places=2)
-    shippingPrice = models.DecimalField(max_digits=10,decimal_places=2)
+    deliveryPhonenumber = models.ForeignKey(PhoneDetail,on_delete=models.DO_NOTHING)
+    amount = models.DecimalField(max_digits=10,decimal_places=2)
+    shippingPrice = models.DecimalField(max_digits=10,decimal_places=2, default=0)
     #tax = models.DecimalField(max_digits=10,decimal_places=2,null = True, blank=True)
     #fee = models.DecimalField(max_digits=10,decimal_places=2,default=0)
     paymentRecieved = models.BooleanField(null=False ,blank= False,default=False)
@@ -146,6 +149,6 @@ class UserOrder(models.Model):
     # Address and Phone and Email Detail by Kartik
 
     def __str__(self):
-        return('OrderId - ' + str(self.id) + ' User - ' + str(self.user) + ' Item - '+ str(self.product))
+        return("ID - " + str(self.id) + ' Ordering User - ' + str(self.user))
     
 

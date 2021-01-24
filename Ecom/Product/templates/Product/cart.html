@@ -24,7 +24,7 @@
     {% endfor %}
     {% if cartSubTotal %}
     <strong>Cart total :</strong>  &#8377;{{ cartSubTotal }}
-    <a class="btn waves-effect waves-light red right" href="#">Buy All! <i class="material-icons">card_membership</i></a><br>
+    <a class="btn waves-effect waves-light red right" href="{% url 'checkout' %}">Buy All! <i class="material-icons">card_membership</i></a><br>
     {% endif %}
 {% else %}
 You are Not Logged In
