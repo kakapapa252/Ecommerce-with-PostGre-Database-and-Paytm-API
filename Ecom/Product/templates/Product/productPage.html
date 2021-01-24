@@ -14,7 +14,7 @@
 {% endif %}
 {% if user.is_authenticated %}
 <a class="btn waves-effect waves-light green right" href="{% url 'addToCart' product.id %}">Add To Cart <i class="material-icons">add</i></a><br><br>
-<a class="btn waves-effect waves-light red right" href="#">Buy Now! <i class="material-icons">card_membership</i></a><br><br><hr>
+<!--<a class="btn waves-effect waves-light red right" href="#">Buy Now! <i class="material-icons">card_membership</i></a><br><br><hr>-->
 {% endif %}
 
 {% include "Product/productShippingDetails.html" %}
