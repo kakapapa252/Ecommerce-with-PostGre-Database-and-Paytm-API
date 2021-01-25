@@ -152,10 +152,16 @@ def cart(request):
         cartSubTotal += cartp.get_total_item_price()
     return render(request, "Product/cart.html", context={"cartProducts": cartProducts, "cartSubTotal":cartSubTotal})
 
+@login_required(login_url='user/login')
+def orderHistory(request):
+    user = request.user
+    orderedProducts =  Order.objects.filter(user=user).filter(paymentRecieved=True)
+    return render(request, "Product/orderHistory.html", context={"orderedProducts": orderedProducts,})
+
 
 #PAYMETNS-------------------------------------------------------------
 
-
+@login_required(login_url='user/login')
 def checkout(request):
     #before filling the form
     user = request.user

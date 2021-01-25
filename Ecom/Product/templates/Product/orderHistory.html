@@ -1,0 +1,31 @@
+{% extends "User/layout.html" %}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+<h2> Order History </h2>
+    {% for orderedProduct in orderedProducts %}
+        <p>Order Date - {{orderedProduct.createDate}}</p>
+        {% for product in orderedProduct.products.all %}
+        <ul class="collection with-header">
+            <li class="collection-item">
+            <!--<a class="btn waves-effect waves-light pink right" href="#">Buy Now! <i class="material-icons">card_membership</i></a>-->
+            <a href="{% url 'productPage' product.id %}">{{ product.title }}</a> (at &#8377;{{ product.price }})<br>
+            <img src="{{ product.thumbnail1.url|default_if_none:'#' }}" width="100" height="100"><br>
+            
+            
+            <a href="{% url 'addToCart' product.id %}" class="secondary-content"><i class="material-icons right">shopping_cart</i></a>
+
+            </li>
+        </ul>
+        {% endfor %}
+    {% empty %}
+    No Saved Items!
+    {% endfor %}
+
+{% else %}
+You are Not Logged In
+<p>Please <a href="{% url 'login' %}">Login</a> in order to create a listing!<br>If not a user,<a href="{% url 'register' %}">Register</a> now!</p>
+{% endif %}
+
+{% endblock %}
