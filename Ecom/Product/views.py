@@ -20,7 +20,7 @@ from Paytm import Checksum
 
 
 #needed for production transactions after kyc
-MERCHANT_KEY = 'kbzk1DSbJiV_O3p5'
+MERCHANT_KEY = 'F2s_R6cQ!LNkXqQx'
 #-----------------------------------
 
 
@@ -184,19 +184,18 @@ def checkout(request):
                     "supplier_phone" : str(singleProduct.product.user.phonenumber),
                     "supplier_email" : str(singleProduct.product.user.email),
                 }
-                singleProduct.delete()
             print(productDetails)
             order.productDetails = json.dumps(productDetails)
             order.save()
             
             #needs to change (Website, MID) after Legal Documentation for it to work
             param_dict = {
-                'MID':'WorldP64425807474247',
+                'MID':'xubJEf88177726122713',
                 'ORDER_ID':str(order.id),
                 'TXN_AMOUNT':str(order.amount),
                 'CUST_ID':str(user.email),
                 'INDUSTRY_TYPE_ID':'Retail',
-                'WEBSITE':'worldpressplg',
+                'WEBSITE':'WEBSTAGING',
                 'CHANNEL_ID':'WEB',
                 'CALLBACK_URL':'http://127.0.0.1:8000/handleRequest/',
         }
@@ -219,33 +218,28 @@ def handleRequest(request):
     if verify:
         if response_dict['RESPCODE'] == '01':
             print('order successful')
+            id = response_dict["ORDERID"]
+            order = get_object_or_404(Order,id=id)
+            order.paymentRecieved = True
+            order.save()
+            user = order.user
+            cartProducts =  Cart.objects.filter(user=user)
+            mess = "Your Order " + str(id) + " of Bill amount Rs." + str(order.amount) + " including - "
+            for singleProduct in cartProducts:
+                mess += f"{singleProduct.product.title} x ({singleProduct.quantity}), "
+                singleProduct.delete()
+
+            #message for email after successful order
+            mess += "is placed Successfuly!!"
+            send_mail('Successfull Order ID - ' + str(id), mess,'kartikay252081075@gmail.com', [user.email],fail_silently=False,) 
+            
+            login(request, user)
+            messages.success(request, "Order Successful")
+            return HttpResponseRedirect(reverse("home"))
         else:
             print('order was not successful because' + response_dict['RESPMSG'])
-    return render(request, 'Product/handleRequest.html', {'response': response_dict})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return HttpResponseRedirect(reverse("home"))
 
 
 #preprocessors----------------------------------------------------
