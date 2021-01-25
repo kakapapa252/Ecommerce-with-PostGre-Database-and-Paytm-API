@@ -1,28 +1,84 @@
-<ul id="dropdown1" class="dropdown-content"> 
-  <!---<li><a href="{% url 'createPhone' %}">Add Phone</a></li>-->
-  <li><a href="{% url 'phoneDetailView' %}">Phonebook</a></li>
-  <li><a href="{% url 'addressDetailView' %}">Addressbook</a></li>
-  <li class="divider"></li>
-  <li><a href="{% url 'createProduct' %}">Create Product</a></li>
-  <li class="divider"></li>
-  <li><a href="{% url 'changePassword' %}">Change Password</a></li>
-  <li class="divider"></li>
-  <li><a href="{% url 'logout' %}">Logout</a></li>
-</ul>
-
-<!---Category DropdownMenu-->
-<ul id="dropdown2" class="dropdown-content"> 
-  {% for category in categoryDropdown %}
-  <li><a href="{% url 'subCategory' category.id %}">{{ category.categoryType }}</a></li>
-  {% endfor %}
-  <li><a href="{% url 'category' %}">View All</a></li>
-</ul>
+{% load static %} 
+{% block custom%}
+  <link href="{% static 'css/dist/site.css' %}" rel="stylesheet">
+{% endblock %}
 
 
-<header>
+<div class="header-containet">
+  <div class="s-logo-strip">
+    <div class="s-logo-ele"><a class="s-logo-name" href="{% url 'home' %}">SHOP</a></div>
+    <div class="s-header-content">
+      <ul class="s-button-main">
+        <li>
+          <div class="s-menu-text">
+            <div class="s-txt">Categories</div>
+            <div class="arrow-down-container">
+              <div class="arrow-down"></div>
+            </div>
+          </div>
+          <ul>
+            {% for category in categoryDropdown %}
+              <li><a href="{% url 'subCategory' category.id %}">{{ category.categoryType }}</a></li>
+            {% endfor %}
+            <li><a href="{% url 'category' %}">View All</a></li>
+          </ul>
+        </li>
+      </ul>
+      {% if user.is_authenticated %}
+      <ul class="s-button-main">
+        <li>
+          <div class="s-menu-text">
+            <div class="s-txt">{{ user.fullname }}</div>
+            <div class="arrow-down-container">
+              <div class="arrow-down"></div>
+            </div>
+          </div>
+          <ul class="s-right-align">
+            <li><a href="{% url 'phoneDetailView' %}">Phonebook</a></li>
+            <li><a href="{% url 'addressDetailView' %}">Addressbook</a></li>
+            <li class="seprator"></li>
+            <li><a href="{% url 'createProduct' %}">Create Product</a></li>
+            <li class="seprator"></li>
+            <li><a href="{% url 'changePassword' %}">Change Password</a></li>
+            <li class="seprator"></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+      {% else %}      
+      <label class="s-button-main">
+        <a class="s-butt" href="{% url 'login' %}">Log In</a>
+      </label>
+      {% endif %}
+    </div>
+  </div>
+  {% if user.is_authenticated %}
+  <div class="s-submenu-container">
+    <div class="right-align">
+      <label class="s-button-main">
+        <a href="{% url 'cart' %}">
+          <svg width="15" height="15" viewBox="0 0 15 15">
+            <title>Shopping cart</title>
+            <path fill="currentColor"
+                d="M12 12c.8 0 1.5.7 1.5 1.5S12.8 15 12 15s-1.5-.7-1.5-1.5.7-1.5 1.5-1.5zM0 0h2.5l.7 1.5h11.1c.5 0 .8.4.8.8 0 .1 0 .2-.1.4l-2.7 4.9c-.3.4-.8.6-1.4.6H5.3l-.6 1.2v.1c0 .1.1.1.2.1h8.7v1.5h-9c-.9.1-1.6-.6-1.6-1.4 0-.2.1-.5.1-.7l1-1.9-2.6-5.6H0V0zm4.5 12c.8 0 1.5.7 1.5 1.5S5.3 15 4.5 15 3 14.3 3 13.5 3.7 12 4.5 12z">
+            </path>
+          </svg>
+          <span>{{ cartCount }}</span>
+        </a>
+      </label>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+
+
+
+
+<!--header>
 <nav>
-<div class="nav-wrapper" style="padding-left:5px;">
-  <a href="{% url 'home' %}" class="brand-logo left">SHOP</a>
+<div class="nav-wrapper">
+  <a href="{% url 'home' %}" class="brand-logo left"><span class="shoplogo">SHOP</span></a>
   <ul class="hide-on-down right">
     <li>
       <form>
@@ -40,7 +96,6 @@
     <i class="material-icons left">shopping_cart</i>
     </a></li>
     <li><a href="{% url 'subscribe' %}">Subscribe</a></li>
-    <!-- Dropdown Trigger -->
     <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ user.fullname }}<i class="material-icons right">arrow_drop_down</i></a></li>
     {% else %}
     <li>
@@ -55,4 +110,4 @@
   </ul>
 </div>
 </nav>
-</header>
+</header-->

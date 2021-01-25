@@ -1,0 +1,39 @@
+body {
+  background-color: #e2f4ff;
+  margin-top: 1px !important;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.body-container .s-fixed-menu {
+  background-color: #e2f4ff;
+  position: fixed;
+  top: 0px;
+  min-width: 100%;
+  z-index: 100;
+}
+.body-container .s-fixed-menu .s-menu-context {
+  max-width: 70%;
+  min-height: 100%;
+  margin: auto;
+}
+.body-container .product-body {
+  clear: both;
+  border: 1px solid;
+  border-width: 0px 1px;
+  border-color: #000;
+  background-color: #ffffff;
+  max-width: 70%;
+  min-height: 100%;
+  margin: auto;
+  padding: 15px;
+  margin-top: 50px;
+}
+
+@media all and (min-width: 0px) and (max-width: 600px) {
+  .body-container .s-fixed-menu .s-menu-context {
+    min-width: 99%;
+  }
+  .body-container .product-body {
+    max-width: 99%;
+  }
+}
