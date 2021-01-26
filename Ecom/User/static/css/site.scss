@@ -99,7 +99,6 @@ $seprator-background : #ccc;
             color: $menu-text-color;
             @include menu-background-color();
             height: 100%;
-            
             .s-logo-name{
                 @include logo-container();
                 @include nullifyanchorstyle();
