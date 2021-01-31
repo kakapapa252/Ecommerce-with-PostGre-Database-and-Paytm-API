@@ -6,6 +6,7 @@ from django.shortcuts import render,  get_object_or_404
 from django.urls import reverse
 from django.db.models import Max
 from .models import *
+from django.db.models import Q
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -73,6 +74,18 @@ def productPage(request,id):
     return render(request,"Product/productPage.html", 
                 context={"product":product ,"commentForm": commentForm, "comments": comments})
 
+'''def searchCrit():
+    for i in Product.objects.all():
+        i.searchKeywords = i.subCategory.category.categoryType + ' ' + i.subCategory.subCategoryType + ' ' + i.title + ' ' + i.description
+        i.save()
+    print('done')
+    return ('yes')'''
+
+def search(request):
+    if request.method == "POST":
+        keyword  = request.POST["search"]
+        products = Product.objects.filter(searchKeywords__icontains = keyword)
+        return render(request, "Product/search.html", context={"products":products, "keyword":keyword})
 
 # logged in features-------------------------------------------------------------
 @login_required(login_url='user/login')
@@ -101,6 +114,8 @@ def createProduct(request):
                 product.refundable = False
                 product.refund_period = 0
             product.shippingDetail = shippingDetail
+            product.save()
+            product.searchKeywords = product.subCategory.category.categoryType + ' ' + product.subCategory.subCategoryType + ' ' + product.title + ' ' + product.description
             product.save()
             messages.success(request, f"Created!")
             return HttpResponseRedirect(reverse("home"))

@@ -21,6 +21,7 @@
                     {% include "User/navbar.html" %} 
                 </div>
             </div>    
+            
             {% if messages %}
                 {% for message in messages %}
                     {% if message.tags == 'success' %}
@@ -33,15 +34,14 @@
                 {% endfor %}
             {% endif %}
 
-
-
             <!-- Page body -->
             <div class="product-body">
+                {% include "User/searchBar.html" %}
                 {% block body %}
                 {% endblock %}
                 {% include "User/footer.html" %}
             </div>
-
+            
         
             
         </div>

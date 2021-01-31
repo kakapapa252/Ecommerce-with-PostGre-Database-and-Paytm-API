@@ -89,7 +89,7 @@ class Product(models.Model):
     thumbnail5 = models.ImageField(null=True, blank=True)
     description = models.TextField()
 
-    #searchCriteria = models.CharField(max_length=200, blank=True,null=True)
+    searchKeywords = models.TextField()
     price = models.DecimalField(max_digits=10,decimal_places=2)
     incTax = models.BooleanField(default=False)
 
