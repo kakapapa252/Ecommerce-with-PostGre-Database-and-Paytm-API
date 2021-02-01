@@ -113,7 +113,7 @@ class Cart(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     product = models.ForeignKey(Product, null=False,on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    added_date = models.DateTimeField(default=timezone.now())
+    added_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return (f"Cart of {self.user}")
