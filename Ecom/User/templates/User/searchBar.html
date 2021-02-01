@@ -1,9 +1,11 @@
 {% load static %}
 
+<div class="row">
 <form action="{% url 'search' %}" method="post">
     {% csrf_token %}
+    <div class="input-field col s6">
     <input type="text" placeholder="Search.." name="search" required>
-    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-    <i class="material-icons">close</i>
-    <button type="submit">submit</button>
+    <button class="material-icons prefix" type="submit" style="width: 80px;">search</button>
+    </div>
 </form>
+</div>
