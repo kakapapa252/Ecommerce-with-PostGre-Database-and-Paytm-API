@@ -133,7 +133,6 @@ class Comments(models.Model):
 
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
-    #paymentDetail = models.ForeignKey(PaymentDetail, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     products = models.ManyToManyField(Product)
     productDetails = models.JSONField()
@@ -146,7 +145,6 @@ class Order(models.Model):
     paymentRecieved = models.BooleanField(null=False ,blank= False,default=False)
     createDate = models.DateTimeField(auto_now_add=True)
     updateDate = models.DateTimeField(auto_now=True)
-    # Address and Phone and Email Detail by Kartik
 
     def __str__(self):
         return("ID - " + str(self.id) + ' Ordering User - ' + str(self.user))
