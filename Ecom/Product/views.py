@@ -170,7 +170,7 @@ def cart(request):
 @login_required(login_url='user/login')
 def orderHistory(request):
     user = request.user
-    orderedProducts =  Order.objects.filter(user=user).filter(paymentRecieved=True)
+    orderedProducts =  Order.objects.filter(user=user).filter(paymentRecieved=True).order_by("-updateDate")
     return render(request, "Product/orderHistory.html", context={"orderedProducts": orderedProducts,})
 
 
@@ -245,13 +245,15 @@ def handleRequest(request):
             order.save()
             user = order.user
             cartProducts =  Cart.objects.filter(user=user)
-            mess = "Your Order " + str(id) + " of Bill amount Rs." + str(order.amount) + " including - "
+            mess = "Your Order " + str(id) + " of Bill amount Rs." + str(order.amount) + " including - \n"
             for singleProduct in cartProducts:
-                mess += f"{singleProduct.product.title} x ({singleProduct.quantity}), "
+                singleProduct.product.availableQt -= singleProduct.quantity
+                singleProduct.product.save()
+                mess += f"{singleProduct.product.title} x ({singleProduct.quantity}),\n "
                 singleProduct.delete()
 
             #message for email after successful order
-            mess += "is placed Successfuly!!"
+            mess += f"is placed Successfuly and will be deliver to - \n {order.deliveryAddress}!"
             send_mail('Successfull Order ID - ' + str(id), mess,'kartikay252081075@gmail.com', [user.email],fail_silently=False,) 
             
             login(request, user)

@@ -2,27 +2,27 @@
     <ul class="slides">
         {% if product.thumbnail1 != '' %}
         <li>    
-        <img src="{{ product.thumbnail1.url|default_if_none:'#' }}" style="max-height: 100%"> <!-- random image -->
+        <img src="{{ product.thumbnail1.url|default_if_none:'#' }}"> <!-- random image -->
         </li>
         {% endif %}
         {% if product.thumbnail2 != '' %}
         <li>
-        <img src="{{ product.thumbnail2.url|default_if_none:'#' }}" style="max-height: 100%"> <!-- random image -->
+        <img src="{{ product.thumbnail2.url|default_if_none:'#' }}"> <!-- random image -->
         </li>
         {% endif %}
         {% if product.thumbnail3 != '' %}
         <li>
-        <img src="{{ product.thumbnail3.url|default_if_none:'#' }}" style="max-height: 100%;position: absolute;"> <!-- random image -->
+        <img src="{{ product.thumbnail3.url|default_if_none:'#' }}"> <!-- random image -->
         </li>
         {% endif %}
         {% if product.thumbnail4 != '' %}
         <li>
-        <img src="{{ product.thumbnail4.url|default_if_none:'#' }}" style="max-height: 100%;position: absolute;"> <!-- random image -->
+        <img src="{{ product.thumbnail4.url|default_if_none:'#' }}"> <!-- random image -->
         </li>
         {% endif %}
         {% if product.thumbnail5 != '' %}
         <li>
-        <img src="{{ product.thumbnail5.url|default_if_none:'#' }}" style="max-height: 100%;position: absolute;"> <!-- random image -->
+        <img src="{{ product.thumbnail5.url|default_if_none:'#' }}"> <!-- random image -->
         </li>
         {% endif %}
     </ul>
@@ -33,6 +33,6 @@
 <script type = "text/javascript">
     $(document).ready(function () {
     // Plugin initialization
-    $('.slider').slider({full_width: true, height : 900,});
+    $('.slider').slider({full_width: false, height : 900});
 })
 </script>

@@ -8,7 +8,7 @@
     <div class="col s12 m4">
       <div class="card">
         <div class="card-image">
-          <img src="{{ product.thumbnail1.url|default_if_none:'#' }}">
+          <img src="{{ product.thumbnail1.url|default_if_none:'#' }}" height="270">
           <span class="card-title activator red-text text-darken-4"><strong>{{ product.title }}</strong></span>
           {% if user.is_authenticated %}
           <a class="btn-floating halfway-fab waves-effect waves-light red" href="{% url 'addToCart' product.id %}"><i class="material-icons">add</i></a>
