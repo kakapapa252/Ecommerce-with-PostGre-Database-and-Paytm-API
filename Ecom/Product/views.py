@@ -28,7 +28,36 @@ MERCHANT_KEY = 'F2s_R6cQ!LNkXqQx'
 # different shop views -----------------------------------------------------------------------
 def home(request):
     products = Product.objects.all()
-    return render(request, "Product/home.html", context={"products":products})
+    return render(request, "Product/home.html", context={"products":products,"startidx":0,"endidx":10})
+
+
+def productStart(request,idx):
+    idx = int(idx)
+    start = 0
+    end = 0
+    if(idx != 0):
+        start = idx - 10
+        end = idx - 1
+    products = Product.objects.all()    
+    return render(request, "Product/home.html", context={"products":products,"startidx":start,"endidx":end})
+
+def productEnd(request,idx):    
+    idx = int(idx)
+    start = 0
+    end = 0
+    if(idx != 0):
+        start = idx + 1
+        end = idx + 10
+    products = Product.objects.all()    
+    return render(request, "Product/home.html", context={"products":products,"startidx":start,"endidx":end})
+
+
+def subCategory(request,id):
+    category = Category.objects.get(id=id)
+    subCategories = SubCategory.objects.filter(category=category)
+    return render(request, "Product/subCategories.html", context={"subCategories":subCategories, "cat":category.categoryType})
+
+
 
 def category(request):
     categories = Category.objects.all()
