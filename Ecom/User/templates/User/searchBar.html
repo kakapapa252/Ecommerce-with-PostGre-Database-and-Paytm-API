@@ -1,6 +1,6 @@
 {% load static %}
 
-<form action="{% url 'search' %}" method="post">
+<form action="{% url 'search' %}" method="get">
     {% csrf_token %}
     <div class="search-container">
       <input type="text" class="search-txt" placeholder="Search..." name="search" required>

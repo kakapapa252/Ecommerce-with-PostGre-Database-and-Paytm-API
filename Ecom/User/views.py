@@ -141,6 +141,7 @@ def createPhone(request):
     if request.method == "POST":
         form = PhoneDetailForm(request.POST)
         if form.is_valid():
+            print(form['phoneNum'].value())
             phoneDetail = form.save(commit=False) 
             phoneDetail.save()
             messages.success(request, f"Created!")
@@ -149,7 +150,7 @@ def createPhone(request):
 
             return HttpResponseRedirect(reverse("phoneDetailView"))
         else:
-            messages.error(request, "Error Detected")
+            messages.error(request, "Error! Add + in Country Code if not added.")
             return HttpResponseRedirect(reverse("createPhone"))
 
     form = PhoneDetailForm

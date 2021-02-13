@@ -28,7 +28,8 @@ MERCHANT_KEY = 'F2s_R6cQ!LNkXqQx'
 # different shop views -----------------------------------------------------------------------
 def home(request):
     products = Product.objects.all()
-    return render(request, "Product/home.html", context={"products":products,"startidx":0,"endidx":10})
+    head = "Home"
+    return render(request, "Product/home.html", context={"products":products,"head":head})
 
 
 def productStart(request,idx):
@@ -72,7 +73,8 @@ def subCategory(request,id):
 def subCategoryProducts(request,id):
     subCategory = SubCategory.objects.get(id=id)
     products = Product.objects.filter(subCategory=subCategory)
-    return render(request, "Product/subCategoryProducts.html", context={"products":products, "subCat":subCategory})
+    head = subCategory.subCategoryType
+    return render(request, "Product/home.html", context={"products":products, "head": head})
 
 
 
@@ -111,10 +113,10 @@ def productPage(request,id):
     return ('yes')'''
 
 def search(request):
-    if request.method == "POST":
-        keyword  = request.POST["search"]
+    if request.method == "GET":
+        keyword  = request.GET.get('search')
         products = Product.objects.filter(searchKeywords__icontains = keyword)
-        return render(request, "Product/search.html", context={"products":products, "keyword":keyword})
+        return render(request, "Product/home.html", context={"products":products, "head":keyword})
 
 # logged in features-------------------------------------------------------------
 @login_required(login_url='user/login')

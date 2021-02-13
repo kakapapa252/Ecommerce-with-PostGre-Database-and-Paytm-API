@@ -6,31 +6,33 @@
 {% endblock %}
 
 {% block body %}
-
-<div class="product-list-container">
-  <div class="row">
+<br>
+<h5><i>{{head}}</i></h5>
+<ul class="collection with-header">
     {% for product in products %}
-    <div class="col s12 m4">
-      <div class="card yellow lighten-1">
-        <a href="{% url 'productPage' product.id %}">
-          <div class="card-image">
-            <img class="img-holder" src="{{ product.thumbnail1.url|default_if_none:'#' }}" height="270">
-          </div>
-          <div class="card-content">
-            <span class="card-title activator red-text text-darken-4 text-overflow-st"><strong>{{ product.title }}
-                asdkjfhklahsd alkjsdhfk asdkjh aslkdjhlkhasd kajhsdfkh </strong></span>
-            <p>Price : &#8377;{{ product.price }}<br></p>
-          </div>
-        </a>
-      </div>
-    </div>
+
+            <li class="collection-item">
+            
+            <span class="center col s2 pull-s7">{{ product.title }}</span>
+            <br>
+            <div class="row">
+            <div class="col s2">
+            <img src="{{ product.thumbnail1.url|default_if_none:'#' }}" width="100" height="100" style='border:2px solid #000000'>
+            </div>
+            <div class="hide-on-med-and-down">{{ product.description }}</div>
+            </div>
+
+            Price :&#8377;{{ product.price }}    
+            
+            </li>
+        
     {% empty %}
-    <h1>No active listings!</h1>
+    No Saved Items!
     {% endfor %}
-  </div>
+    </ul>
   <div class="button-pagination">
-    <a class="btn-large blue" href="{% url 'productStart' startidx %}">Previous Page</a>
-    <a class="btn-large nextpg blue" href="{% url 'productEnd' endidx %}">Next Page</a>
+    <a class="btn-large blue" href="#">Previous Page</a>
+    <a class="btn-large nextpg blue" href="#">Next Page</a>
   </div>
-</div>
+
 {% endblock %}
