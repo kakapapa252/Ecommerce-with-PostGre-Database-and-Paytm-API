@@ -21,7 +21,7 @@ body {
   border: 1px solid;
   border-width: 0px 1px;
   border-color: #000;
-  background-color: #ffffff;
+  background-color: #cdf1f3;
   max-width: 70%;
   min-height: 100%;
   margin: auto;
@@ -29,7 +29,7 @@ body {
   margin-top: 50px;
 }
 
-@media all and (min-width: 0px) and (max-width: 600px) {
+@media all and (min-width: 0px) and (max-width: 1366px) {
   .body-container .s-fixed-menu .s-menu-context {
     min-width: 99%;
   }
