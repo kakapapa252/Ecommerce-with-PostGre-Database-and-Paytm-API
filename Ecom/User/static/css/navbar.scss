@@ -1,5 +1,5 @@
-$menu-background-color : rgb(11, 104, 226);;
-$sub-menu-background-color : rgb(241, 250, 252);;
+$menu-background-color : rgb(11, 104, 226);
+$sub-menu-background-color : yellow;
 $menu-text-color : #fff;
 $drop-menu-background : rgb(248, 236, 255);
 $drop-hover-background : rgb(0, 123, 172);
@@ -34,7 +34,7 @@ $seprator-background : #ccc;
     @if $left-align {
         margin-left: -15px;
     } @else {
-        margin-left : -93px;
+        margin-left : calc(-55%);
     }
 }
 
@@ -50,7 +50,7 @@ $seprator-background : #ccc;
 }
 
 
-.header-containet{
+.header-container{
     border-width: 0px 1px;
     min-height: 100%;
     margin: auto;
@@ -61,11 +61,41 @@ $seprator-background : #ccc;
         @include sub-menu-background-color();
         border-top: 1px solid #ccc;
         border-bottom: 1px solid #ccc;
-        height: 30px;
+        height: 40px;
         display: flex;
-        flex-direction: row;
-        .right-align{
-            margin-left: auto;
+        flex-direction: row-reverse;
+        .s-search-bar{
+            width:100%;
+            flex-direction: row;
+            .search-container{
+                width:100%;
+                display: flex;
+                justify-content: center;
+                padding : 0px 5px;
+                .search-txt{
+                    clear: both;
+                    height : 30px !important;
+                    min-height : 100% !important;
+                    margin-top: 2px;
+                    border: 1px solid #000;
+                    background-color: #fff;
+                    width: 80% !important;
+                    border-top-left-radius: 5px;
+                    border-bottom-left-radius: 5px;
+                    padding-left: 20px;
+                }
+                .search-txt:focus{
+                    border: 1px solid rgb(19, 71, 240);
+                }
+                .search-button{
+                    height : 32px !important;
+                    margin-top: 2px;
+                    width:40px;
+                }
+            }
+        }
+        .cart{
+            width:20%;
         }
         .s-button-main {
             color: $menu-text-color;

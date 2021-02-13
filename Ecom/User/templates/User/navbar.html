@@ -1,10 +1,10 @@
 {% load static %} 
 {% block custom%}
-  <link href="{% static 'css/dist/site.css' %}" rel="stylesheet">
+  <link href="{% static 'css/dist/navbar.css' %}" rel="stylesheet">
 {% endblock %}
 
 
-<div class="header-containet">
+<div class="header-container">
   <div class="s-logo-strip">
     <div class="s-logo-ele"><a class="s-logo-name" href="{% url 'home' %}">SHOP</a></div>
     <div class="s-header-content">
@@ -54,9 +54,9 @@
       {% endif %}
     </div>
   </div>
-  {% if user.is_authenticated %}
-  <div class="s-submenu-container">
-    <div class="right-align">
+  
+  <div class="s-submenu-container">    
+    <div class="right-align cart">
       <label class="s-button-main">
         <a href="{% url 'cart' %}">
           <svg width="15" height="20" viewBox="0 0 15 15">
@@ -69,8 +69,11 @@
         </a>
       </label>
     </div>
+    <div class="left-align s-search-bar">
+      {% include "User/searchBar.html" %}
+    </div>
   </div>
-  {% endif %}
+  
 </div>
 
 
