@@ -1,16 +1,13 @@
 {% extends "User/layout.html" %}
 {% load static %}
 
-{% block custom %}
-<link href="{% static 'css/dist/product.css' %}" rel="stylesheet">
-{% endblock %}
-
 {% block body %}
 <br>
 <h5><i>{{head}}</i></h5>
-<ul class="collection with-header">
-    {% for product in products %}
 
+    {% for product in products %}
+    <ul class="collection with-header">
+            <a href="{% url 'productPage' product.id %}">
             <li class="collection-item">
             
             <span class="center col s2 pull-s7">{{ product.title }}</span>
@@ -25,14 +22,22 @@
             Price :&#8377;{{ product.price }}    
             
             </li>
-        
+            </a>
+          </ul>
     {% empty %}
     No Saved Items!
     {% endfor %}
-    </ul>
-  <div class="button-pagination">
-    <a class="btn-large blue" href="#">Previous Page</a>
-    <a class="btn-large nextpg blue" href="#">Next Page</a>
-  </div>
+<div class="center"> 
+{% if products.has_other_pages %}
+  <ul class="pagination">
+    {% if products.has_previous %}
+    <li><a href="?page={{ products.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="waves-effect waves-light btn">&laquo; PREV </a></li>
+    {% endif %}
+    {% if products.has_next %}
+    <li><a href="?page={{ products.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="waves-effect waves-light btn"> NEXT &raquo;</a></li>
+   {% endif %}
+  </ul>
+{% endif %}
+</div>
 
 {% endblock %}

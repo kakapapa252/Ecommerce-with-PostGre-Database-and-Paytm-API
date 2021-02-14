@@ -3,7 +3,7 @@
 <form action="{% url 'search' %}" method="get">
     {% csrf_token %}
     <div class="search-container">
-      <input type="text" class="search-txt" placeholder="Search..." name="search" required>
+      <input type="text" class="search-txt" placeholder="Search..." name="q" value="{{ request.GET.q }}" required>
       <button class="material-icons search-button"  type="submit">search</button>
     </div>
   </form>

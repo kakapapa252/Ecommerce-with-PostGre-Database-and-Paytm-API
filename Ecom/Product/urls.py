@@ -10,9 +10,6 @@ urlpatterns = [
     path("subCategoryProducts/<id>", views.subCategoryProducts, name="subCategoryProducts"),
     path("productPage/<id>", views.productPage, name="productPage"),
 
-    path("productStart/<idx>", views.productStart, name="productStart"),
-    path("productEnd/<idx>", views.productEnd, name="productEnd"),
-
     path("createProduct", views.createProduct, name="createProduct"),
 
     path("addToCart/<id>", views.addToCart, name="addToCart"),

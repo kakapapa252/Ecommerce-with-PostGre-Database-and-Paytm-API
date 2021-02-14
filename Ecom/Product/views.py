@@ -16,6 +16,7 @@ from User.forms import AddressDetailForm
 
 from User.models import UserDetails, AddressDetail
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 from Paytm import Checksum
 
@@ -28,29 +29,15 @@ MERCHANT_KEY = 'F2s_R6cQ!LNkXqQx'
 # different shop views -----------------------------------------------------------------------
 def home(request):
     products = Product.objects.all()
-    head = "Home"
-    return render(request, "Product/home.html", context={"products":products,"head":head})
-
-
-def productStart(request,idx):
-    idx = int(idx)
-    start = 0
-    end = 0
-    if(idx != 0):
-        start = idx - 10
-        end = idx - 1
-    products = Product.objects.all()    
-    return render(request, "Product/home.html", context={"products":products,"startidx":start,"endidx":end})
-
-def productEnd(request,idx):    
-    idx = int(idx)
-    start = 0
-    end = 0
-    if(idx != 0):
-        start = idx + 1
-        end = idx + 10
-    products = Product.objects.all()    
-    return render(request, "Product/home.html", context={"products":products,"startidx":start,"endidx":end})
+    paginator = Paginator(products, 2)
+    page = request.GET.get('page')
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+    return render(request, "Product/home.html", context={"products":products,})
 
 
 def subCategory(request,id):
@@ -74,6 +61,14 @@ def subCategoryProducts(request,id):
     subCategory = SubCategory.objects.get(id=id)
     products = Product.objects.filter(subCategory=subCategory)
     head = subCategory.subCategoryType
+    paginator = Paginator(products, 2)
+    page = request.GET.get('page')
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
     return render(request, "Product/home.html", context={"products":products, "head": head})
 
 
@@ -113,10 +108,19 @@ def productPage(request,id):
     return ('yes')'''
 
 def search(request):
-    if request.method == "GET":
-        keyword  = request.GET.get('search')
-        products = Product.objects.filter(searchKeywords__icontains = keyword)
-        return render(request, "Product/home.html", context={"products":products, "head":keyword})
+    products = Product.objects.all()
+    keyword  = request.GET.get('q')
+    if keyword:
+        products = Product.objects.filter(Q(searchKeywords__icontains = keyword))
+    paginator = Paginator(products, 2)
+    page = request.GET.get('page')
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+    return render(request, "Product/home.html", context={"products":products})
 
 # logged in features-------------------------------------------------------------
 @login_required(login_url='user/login')
