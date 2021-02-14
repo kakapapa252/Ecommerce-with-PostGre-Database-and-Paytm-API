@@ -9,6 +9,7 @@ urlpatterns = [
     path("subCategory/<id>", views.subCategory, name="subCategory"),
     path("subCategoryProducts/<id>", views.subCategoryProducts, name="subCategoryProducts"),
     path("productPage/<id>", views.productPage, name="productPage"),
+    path("rate/<id>", views.rate, name="rate"),
 
     path("createProduct", views.createProduct, name="createProduct"),
 

@@ -70,6 +70,16 @@ class PackageDetails(models.Model):
     def __str__(self):
         return('PackageDetails ID - '+str(self.id))
 
+class Ratings(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    product = models.ForeignKey('Product', null=False,on_delete=models.CASCADE)
+    createDate = models.DateTimeField(auto_now_add=True)
+    rating = models.PositiveSmallIntegerField(blank=False, null=False)
+
+    def __str__(self):
+        return('| Rating- ' + str(self.rating) + '|by-' + str(self.user))
+
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     
@@ -109,6 +119,17 @@ class Product(models.Model):
     def __str__(self):
         return(self.title)
     
+    def get_rating(self):
+        allRating = Ratings.objects.filter(product=self)
+        avgRating = 0
+        try:
+            for rating in allRating:
+                avgRating += rating.rating
+            avgRating = round(avgRating/len(allRating),2)
+        except:
+            avgRating = None
+        return avgRating
+    
 class Cart(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     product = models.ForeignKey(Product, null=False,on_delete=models.CASCADE)
@@ -127,9 +148,11 @@ class Comments(models.Model):
     product = models.ForeignKey(Product, null=False,on_delete=models.CASCADE)
     description = models.TextField()
     createDate = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
         return(str(self.product) + '| Comment ID - ' + str(self.id) )
+
+
+   
 
 class Order(models.Model):
     id = models.AutoField(primary_key=True)

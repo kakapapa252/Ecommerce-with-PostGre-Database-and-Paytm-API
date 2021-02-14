@@ -1,0 +1,24 @@
+
+<i><h5>Rating:</h5></i>
+
+{%if product.get_rating%}
+    {{ product.get_rating }}/5
+    {% if rating %}
+        <br>Your Previous Rating:<br> {{ rating.rating }}/5
+    {% endif %}
+{% else %}
+    <i> No ratings yet! </i>
+{% endif%}
+
+<br>
+{% if user.is_authenticated %}
+Rate :
+    <div class="rating">
+    1-<a href="{% url 'rate' product.id %}?data=1" title="Give 1 star">★</a>
+    <a href="{% url 'rate' product.id %}?data=2" title="Give 2 stars">★</a>
+    <a href="{% url 'rate' product.id %}?data=3" title="Give 3 stars">★</a>
+    <a href="{% url 'rate' product.id %}?data=4" title="Give 4 stars">★</a>
+    <a href="{% url 'rate' product.id %}?data=5" title="Give 5 stars">★</a>-5
+</div>
+{% endif %}
+

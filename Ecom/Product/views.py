@@ -78,7 +78,10 @@ def productPage(request,id):
     user = request.user
     commentForm = CommentForm
     comments = Comments.objects.filter(product=product)
-
+    try:
+        rating = Ratings.objects.get(product=product, user=user)
+    except:
+        rating = None
     if request.method == "POST":
         commentForm = CommentForm(request.POST,)     
         if commentForm.is_valid():
@@ -90,15 +93,15 @@ def productPage(request,id):
                 comment.product = product
                 comment.save()
             return render(request,"Product/productPage.html", 
-                        context={"product":product ,"commentForm": commentForm, "comments": comments})
+                        context={"product":product ,"commentForm": commentForm, "comments": comments, "rating": rating})
 
         else:
             return render(request,"Product/productPage.html", 
-                        context={"product":product ,"commentForm": commentForm, "comments": comments})
+                        context={"product":product ,"commentForm": commentForm, "comments": comments, "rating":rating})
             
 
     return render(request,"Product/productPage.html", 
-                context={"product":product ,"commentForm": commentForm, "comments": comments})
+                context={"product":product ,"commentForm": commentForm, "comments": comments, "rating": rating})
 
 '''def searchCrit():
     for i in Product.objects.all():
@@ -175,7 +178,7 @@ def addToCart(request,id):
         cartItem.save()
         messages.success(request, f"Added Quantity") 
 
-    return HttpResponseRedirect(reverse("cart"))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required(login_url='user/login')
 def removeFromCart(request,id):
@@ -192,6 +195,22 @@ def removeFromCart(request,id):
         
     return HttpResponseRedirect(reverse("cart"))
 
+@login_required(login_url='user/login')
+def rate(request,id):
+    product = get_object_or_404(Product,id=id)
+    user = request.user
+    newRating = int(request.GET.get('data'))
+    try:
+        rating = Ratings.objects.get(product=product, user=user)
+    except:
+        rating = None
+    if rating:
+        rating.rating = newRating
+        rating.save()
+    else:
+        rating = Ratings.objects.create(user=user, product=product, rating = newRating)
+        rating.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required(login_url='user/login')
 def cart(request):

@@ -17,6 +17,9 @@
             <img src="{{ product.thumbnail1.url|default_if_none:'#' }}" width="100" height="100" style='border:2px solid #000000'>
             </div>
             <div class="hide-on-med-and-down">{{ product.description }}</div>
+            <br>
+            
+            <div>{%if product.get_rating%}Rating : {{ product.get_rating }}/5 {% else %}<i> No ratings yet! </i>{% endif%}</div>
             </div>
 
             Price :&#8377;{{ product.price }}    

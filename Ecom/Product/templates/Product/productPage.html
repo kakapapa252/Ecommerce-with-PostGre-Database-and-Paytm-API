@@ -1,5 +1,5 @@
 {% extends "User/layout.html" %}
-
+{% load static %} 
 {% block body %}
 
 <h2>{{product.title}}</h2><br>
@@ -23,5 +23,8 @@
 <i><h5>Product Discription:</h5></i>
 <p style="font-size:140%;">{{product.description}}</p>
 <hr>
+{% include "Product/rating.html" %} 
+<hr>
 {% include "Product/comments.html" %} 
+
 {% endblock %}
