@@ -126,7 +126,7 @@ def search(request):
     return render(request, "Product/home.html", context={"products":products})
 
 # logged in features-------------------------------------------------------------
-@login_required(login_url='user/login')
+@login_required(login_url='/user/login')
 def createProduct(request):
     user = request.user
     if request.method == "POST":
@@ -165,7 +165,7 @@ def createProduct(request):
     shippingForm = CreateShippingForm(user)
     return render(request, "Product/createProduct.html", context={"form": productForm, "shippingForm": shippingForm})
 
-@login_required(login_url='user/login')
+@login_required(login_url='/user/login')
 def addToCart(request,id):
     product = get_object_or_404(Product,id=id)
     user = request.user
@@ -180,7 +180,7 @@ def addToCart(request,id):
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-@login_required(login_url='user/login')
+@login_required(login_url='/user/login')
 def removeFromCart(request,id):
     product = get_object_or_404(Product,id=id)
     user = request.user
@@ -195,7 +195,7 @@ def removeFromCart(request,id):
         
     return HttpResponseRedirect(reverse("cart"))
 
-@login_required(login_url='user/login')
+@login_required(login_url='/user/login')
 def rate(request,id):
     product = get_object_or_404(Product,id=id)
     user = request.user
@@ -212,7 +212,7 @@ def rate(request,id):
         rating.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-@login_required(login_url='user/login')
+@login_required(login_url='/user/login')
 def cart(request):
     user = request.user
     cartProducts =  Cart.objects.filter(user=user)
@@ -221,7 +221,7 @@ def cart(request):
         cartSubTotal += cartp.get_total_item_price()
     return render(request, "Product/cart.html", context={"cartProducts": cartProducts, "cartSubTotal":cartSubTotal})
 
-@login_required(login_url='user/login')
+@login_required(login_url='/user/login')
 def orderHistory(request):
     user = request.user
     orderedProducts =  Order.objects.filter(user=user).filter(paymentRecieved=True).order_by("-updateDate")
@@ -230,7 +230,7 @@ def orderHistory(request):
 
 #PAYMETNS-------------------------------------------------------------
 
-@login_required(login_url='user/login')
+@login_required(login_url='/user/login')
 def checkout(request):
     #before filling the form
     user = request.user
@@ -314,7 +314,7 @@ def handleRequest(request):
             messages.success(request, "Order Successful")
             return HttpResponseRedirect(reverse("home"))
         else:
-            print('order was not successful because' + response_dict['RESPMSG'])
+            print('order was not successful because' + response_dict['RESPMSG'] + str(order.id))
 
         return HttpResponseRedirect(reverse("home"))
 

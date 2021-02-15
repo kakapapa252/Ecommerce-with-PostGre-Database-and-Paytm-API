@@ -59,7 +59,7 @@ def login_view(request):
     else:
         return render(request, "User/login.html")
 
-@login_required(login_url='/login')
+@login_required(login_url='/user/login')
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -104,7 +104,7 @@ def register(request):
     else:
         return render(request, "User/register.html")
 
-@login_required(login_url='/login')
+@login_required(login_url='/user/login')
 def changePassword(request):
     user = request.user
     if request.method == "POST":
@@ -130,13 +130,13 @@ def changePassword(request):
 
 
 #phonebook-------------------------------------
-@login_required(login_url='/login')
+@login_required(login_url='/user/login')
 def phoneDetailView(request):
     userDetail = UserDetails.objects.get(user=request.user)
     phoneDetails = userDetail.phones.all()
     return render(request, "User/phoneView.html", context={"phones":phoneDetails,})
 
-@login_required(login_url='/login')
+@login_required(login_url='/user/login')
 def createPhone(request):
     if request.method == "POST":
         form = PhoneDetailForm(request.POST)
@@ -156,7 +156,7 @@ def createPhone(request):
     form = PhoneDetailForm
     return render(request, "User/createPhone.html", context={"form": form})
 
-@login_required(login_url='/login')
+@login_required(login_url='/user/login')
 def deletePhone(request, id):
     try:
         userDetail = UserDetails.objects.get(user=request.user)
@@ -174,13 +174,13 @@ def deletePhone(request, id):
 
 
 #adressbook------------------------------------------
-@login_required(login_url='/login')
+@login_required(login_url='/user/login')
 def addressDetailView(request):
     userDetail = UserDetails.objects.get(user=request.user)
     addressDetails = userDetail.addresses.all()
     return render(request, "User/addressView.html", context={"addresses":addressDetails,})
 
-@login_required(login_url='/login')
+@login_required(login_url='/user/login')
 def createAdrress(request):
     if request.method == "POST":
         form = AddressDetailForm(request.POST)
@@ -218,7 +218,7 @@ def createAdrress(request):
     form = AddressDetailForm
     return render(request, "User/createAddress.html", context={"form": form})
 
-@login_required(login_url='/login')
+@login_required(login_url='/user/login')
 def deleteAddress(request, id):
     try:
         userDetail = UserDetails.objects.get(user=request.user)
@@ -233,7 +233,7 @@ def deleteAddress(request, id):
         messages.error(request, f"Unable to Remove.")
         return HttpResponseRedirect(reverse("addressDetailView"))
 
-@login_required(login_url='/login')
+@login_required(login_url='/user/login')
 def updateAddress(request, id):
     address = get_object_or_404(AddressDetail,id=id)
     form = AddressDetailForm(request.POST or None, instance= address)
@@ -251,7 +251,7 @@ def updateAddress(request, id):
         form = AddressDetailForm
         return render(request, "User/updateAddress.html", context={"form": form, "helper":address})
 
-@login_required(login_url='/login')
+@login_required(login_url='/user/login')
 def setPrimaryAddress(request, id):
     userDetail = UserDetails.objects.get(user=request.user)
     address = get_object_or_404(AddressDetail,id=id)
